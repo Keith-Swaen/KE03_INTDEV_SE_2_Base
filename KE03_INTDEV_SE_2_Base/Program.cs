@@ -18,6 +18,10 @@ namespace KE03_INTDEV_SE_2_Base
                 options => options.UseSqlite("Data Source=MatrixInc.db"));
             builder.Services.AddControllersWithViews();
 
+            //builder.Services.AddDbContext<MatrixIncDbContext>(options =>
+              //   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
             // We registreren de repositories in de DI container
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();

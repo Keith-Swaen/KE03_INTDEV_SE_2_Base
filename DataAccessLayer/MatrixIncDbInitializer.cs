@@ -55,6 +55,13 @@ namespace DataAccessLayer
             };
             context.Parts.AddRange(parts);
 
+            var admins = new Admin[]
+            {
+                new Admin { Username = "admin", Password = "matrix123" } 
+            };
+            context.Admins.AddRange(admins);
+
+
             context.SaveChanges();
 
             context.Database.EnsureCreated();
