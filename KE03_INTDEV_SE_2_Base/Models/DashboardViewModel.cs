@@ -1,4 +1,5 @@
-using DataAccessLayer.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace KE03_INTDEV_SE_2_Base.Models
 {
@@ -7,28 +8,32 @@ namespace KE03_INTDEV_SE_2_Base.Models
         public int TotalProducts { get; set; }
         public int TotalCustomers { get; set; }
         public int TotalOrders { get; set; }
-        public decimal AverageOrderValue { get; set; }
-        public List<Order> RecentOrders { get; set; } = new List<Order>();
-        public List<CategoryCount> ProductsByCategory { get; set; } = new List<CategoryCount>();
-        public List<TimelineData> OrdersTimeline { get; set; } = new List<TimelineData>();
-        public List<ProductData> TopProducts { get; set; } = new List<ProductData>();
+        public decimal TotalRevenue { get; set; }
+
+        public List<ChartDataPoint> ProductPriceDistribution { get; set; }
+        public List<ChartDataPoint> OrdersOverTime { get; set; }
+        public List<TopProductViewModel> TopProducts { get; set; }
+
+        public DashboardViewModel()
+        {
+            ProductPriceDistribution = new List<ChartDataPoint>();
+            OrdersOverTime = new List<ChartDataPoint>();
+            TopProducts = new List<TopProductViewModel>();
+        }
     }
 
-    public class CategoryCount
+    public class ChartDataPoint
     {
-        public string Category { get; set; } = string.Empty;
-        public int Count { get; set; }
+        [Required]
+        public string Label { get; set; } = string.Empty;
+        public double Value { get; set; }
     }
 
-    public class TimelineData
+    public class TopProductViewModel
     {
-        public DateTime Date { get; set; }
-        public int Count { get; set; }
-    }
-
-    public class ProductData
-    {
-        public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
+        [Required]
+        public string ProductName { get; set; } = string.Empty;
+        public int OrderCount { get; set; }
+        public decimal TotalRevenue { get; set; }
     }
 } 

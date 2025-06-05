@@ -1,86 +1,86 @@
-using DataAccessLayer.Interfaces;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using DataAccessLayer;
 using KE03_INTDEV_SE_2_Base.Models;
+using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Models;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
     public class DashboardController : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IOrderRepository _orderRepository;
+        private readonly MatrixIncDbContext _context;
 
-        public DashboardController(
-            IProductRepository productRepository,
-            ICustomerRepository customerRepository,
-            IOrderRepository orderRepository)
+        public DashboardController(MatrixIncDbContext context)
         {
-            _productRepository = productRepository;
-            _customerRepository = customerRepository;
-            _orderRepository = orderRepository;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            var allOrders = _orderRepository.GetAllOrders().ToList();
-            var allProducts = _productRepository.GetAllProducts().ToList();
+            // First, get the orders with their products
+            var ordersWithProducts = _context.Orders
+                .Include(o => o.Products)
+                .ToList();
 
-            // Calculate average order value based on product prices
-            var averageOrderValue = allProducts.Any() 
-                ? allProducts.Average(p => p.Price) 
-                : 0;
+            var viewModel = new DashboardViewModel
+            {
+                TotalProducts = _context.Products.Count(),
+                TotalCustomers = _context.Customers.Count(),
+                TotalOrders = ordersWithProducts.Count,
+                // Calculate total revenue on the client side
+                TotalRevenue = ordersWithProducts
+                    .SelectMany(o => o.Products)
+                    .Sum(p => p.Price)
+            };
 
-            // Get orders timeline for the last 7 days
+            // Product price distribution
+            var priceRanges = new[] { 0m, 100m, 500m, 1000m, 5000m, decimal.MaxValue };
+            var products = _context.Products.ToList(); // Get products to client side
+            var distribution = new List<ChartDataPoint>();
+            
+            for (int i = 0; i < priceRanges.Length - 1; i++)
+            {
+                var currentMin = priceRanges[i];
+                var currentMax = priceRanges[i + 1];
+                var count = products.Count(p => 
+                    p.Price >= currentMin && p.Price < currentMax);
+                var label = $"€{currentMin} - {(currentMax == decimal.MaxValue ? "+" : "€" + currentMax.ToString())}";
+                distribution.Add(new ChartDataPoint { Label = label, Value = count });
+            }
+            viewModel.ProductPriceDistribution = distribution;
+
+            // Orders over time (last 7 days)
             var last7Days = Enumerable.Range(0, 7)
-                .Select(i => DateTime.Today.AddDays(-i))
+                .Select(i => DateTime.Now.Date.AddDays(-i))
                 .Reverse()
                 .ToList();
 
-            var ordersTimeline = last7Days
-                .Select(date => new TimelineData
-                {
-                    Date = date,
-                    Count = allOrders.Count(o => o.OrderDate.Date == date)
-                })
-                .ToList();
-
-            // Get top 5 products by price
-            var topProducts = allProducts
-                .OrderByDescending(p => p.Price)
-                .Take(5)
-                .Select(p => new ProductData
-                {
-                    Name = p.Name,
-                    Price = p.Price
-                })
-                .ToList();
-
-            // Group products by category
-            var productsByCategory = allProducts
-                .GroupBy(p => !string.IsNullOrEmpty(p.Category) ? p.Category : "Uncategorized")
-                .Select(g => new CategoryCount 
-                { 
-                    Category = g.Key ?? "Uncategorized", 
-                    Count = g.Count() 
-                })
-                .ToList();
-
-            var dashboardViewModel = new DashboardViewModel
+            viewModel.OrdersOverTime = last7Days.Select(date => new ChartDataPoint
             {
-                TotalProducts = allProducts.Count,
-                TotalCustomers = _customerRepository.GetAllCustomers().Count(),
-                TotalOrders = allOrders.Count,
-                AverageOrderValue = averageOrderValue,
-                RecentOrders = allOrders
-                    .OrderByDescending(o => o.OrderDate)
-                    .Take(5)
-                    .ToList(),
-                ProductsByCategory = productsByCategory,
-                OrdersTimeline = ordersTimeline,
-                TopProducts = topProducts
-            };
+                Label = date.ToString("MM/dd"),
+                Value = ordersWithProducts.Count(o => o.OrderDate.Date == date)
+            }).ToList();
 
-            return View(dashboardViewModel);
+            // Top 5 products by order count
+            var productsWithOrders = _context.Products
+                .Include(p => p.Orders)
+                .ToList();
+
+            viewModel.TopProducts = productsWithOrders
+                .Select(p => new TopProductViewModel
+                {
+                    ProductName = p.Name,
+                    OrderCount = p.Orders.Count,
+                    TotalRevenue = p.Price * p.Orders.Count
+                })
+                .OrderByDescending(p => p.OrderCount)
+                .Take(5)
+                .ToList();
+
+            return View(viewModel);
         }
     }
 } 
