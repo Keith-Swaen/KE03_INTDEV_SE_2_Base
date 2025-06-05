@@ -4,60 +4,170 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<!-- Add Font Awesome and Custom CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    .dashboard-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+    }
+
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 300px;
+    }
+
+    .table-container {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .dashboard-title {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #eee;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    .card-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #4e73df, #224abe);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(45deg, #1cc88a, #13855c);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(45deg, #36b9cc, #258391);
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(45deg, #f6c23e, #dda20a);
+    }
+</style>
+
 <div class="container-fluid py-4">
-    <h1 class="mb-4">Matrix Inc. Dashboard</h1>
+    <h1 class="dashboard-title">
+        <i class="fas fa-tachometer-alt me-2"></i>Matrix Inc. Dashboard
+    </h1>
 
     <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card dashboard-card bg-gradient-primary text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Products</h5>
-                    <h2 class="card-text">@Model.TotalProducts</h2>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Products</h6>
+                            <div class="card-value">@Model.TotalProducts</div>
+                            <div class="small">Available Products</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
+        <div class="col-xl-3 col-md-6">
+            <div class="card dashboard-card bg-gradient-success text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Customers</h5>
-                    <h2 class="card-text">@Model.TotalCustomers</h2>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Customers</h6>
+                            <div class="card-value">@Model.TotalCustomers</div>
+                            <div class="small">Registered Customers</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
+        <div class="col-xl-3 col-md-6">
+            <div class="card dashboard-card bg-gradient-info text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Orders</h5>
-                    <h2 class="card-text">@Model.TotalOrders</h2>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Orders</h6>
+                            <div class="card-value">@Model.TotalOrders</div>
+                            <div class="small">Processed Orders</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
+        <div class="col-xl-3 col-md-6">
+            <div class="card dashboard-card bg-gradient-warning text-white h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Total Revenue</h5>
-                    <h2 class="card-text">$@Model.TotalRevenue.ToString("N2")</h2>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Revenue</h6>
+                            <div class="card-value">€@Model.TotalRevenue.ToString("N0")</div>
+                            <div class="small">Total Sales</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-euro-sign"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Charts -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
+    <div class="row g-4 mb-4">
+        <div class="col-xl-6">
+            <div class="card dashboard-card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Product Price Distribution</h5>
-                    <canvas id="productPriceChart"></canvas>
+                    <h5 class="card-title text-muted">
+                        <i class="fas fa-chart-bar me-2"></i>Product Price Distribution
+                    </h5>
+                    <div class="chart-container">
+                        <canvas id="productPriceChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-xl-6">
+            <div class="card dashboard-card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Orders Over Time</h5>
-                    <canvas id="ordersTimeChart"></canvas>
+                    <h5 class="card-title text-muted">
+                        <i class="fas fa-chart-line me-2"></i>Orders Over Time
+                    </h5>
+                    <div class="chart-container">
+                        <canvas id="ordersTimeChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,26 +175,33 @@
 
     <!-- Top Products Table -->
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
+        <div class="col-12">
+            <div class="card dashboard-card">
                 <div class="card-body">
-                    <h5 class="card-title">Top 5 Products</h5>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <h5 class="card-title text-muted mb-4">
+                        <i class="fas fa-trophy me-2"></i>Top Performing Products
+                    </h5>
+                    <div class="table-container">
+                        <table class="table table-hover">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Product Name</th>
-                                    <th>Order Count</th>
-                                    <th>Total Revenue</th>
+                                    <th class="text-center">Order Count</th>
+                                    <th class="text-end">Total Revenue</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var product in Model.TopProducts)
                                 {
                                     <tr>
-                                        <td>@product.ProductName</td>
-                                        <td>@product.OrderCount</td>
-                                        <td>$@product.TotalRevenue.ToString("N2")</td>
+                                        <td>
+                                            <i class="fas fa-box me-2 text-muted"></i>
+                                            @product.ProductName
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary rounded-pill">@product.OrderCount</span>
+                                        </td>
+                                        <td class="text-end">€@product.TotalRevenue.ToString("N0")</td>
                                     </tr>
                                 }
                             </tbody>
@@ -99,6 +216,17 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Custom chart configuration
+        const chartConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        };
+
         // Product Price Distribution Chart
         new Chart(document.getElementById('productPriceChart'), {
             type: 'bar',
@@ -107,16 +235,24 @@
                 datasets: [{
                     label: 'Number of Products',
                     data: @Json.Serialize(Model.ProductPriceDistribution.Select(p => p.Value)),
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
+                    borderColor: 'rgba(78, 115, 223, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
-                responsive: true,
+                ...chartConfig,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
@@ -130,16 +266,25 @@
                 datasets: [{
                     label: 'Number of Orders',
                     data: @Json.Serialize(Model.OrdersOverTime.Select(p => p.Value)),
-                    fill: false,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    tension: 0.1
+                    fill: true,
+                    backgroundColor: 'rgba(54, 185, 204, 0.1)',
+                    borderColor: 'rgba(54, 185, 204, 1)',
+                    tension: 0.4
                 }]
             },
             options: {
-                responsive: true,
+                ...chartConfig,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
