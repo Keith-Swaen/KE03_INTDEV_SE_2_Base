@@ -6,83 +6,68 @@
 
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <div class="d-flex">
-            <button class="btn btn-outline-primary me-2">
-                <i class="bi bi-download"></i> Export Data
-            </button>
-            <button class="btn btn-primary">
-                <i class="bi bi-arrow-clockwise"></i> Refresh
-            </button>
-        </div>
+    <div class="mb-4">
+        <h1 class="h3 text-gray-800 fw-bold">Dashboard Overview</h1>
+        <p class="text-muted">Welcome to Matrix Inc. Management System</p>
     </div>
 
     <!-- Statistics Cards Row -->
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="card border-start border-primary border-4 shadow h-100 py-2">
+            <div class="card bg-primary bg-gradient text-white h-100">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Products
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold">@Model.TotalProducts</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-2">Total Products</h6>
+                            <h2 class="mb-0 fw-bold">@Model.TotalProducts</h2>
                         </div>
-                        <div class="col-auto">
-                            <i class="bi bi-box text-gray-300 h1 mb-0"></i>
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                            <i class="bi bi-box text-white h4 mb-0"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card border-start border-success border-4 shadow h-100 py-2">
+            <div class="card bg-success bg-gradient text-white h-100">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Customers
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold">@Model.TotalCustomers</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-2">Total Customers</h6>
+                            <h2 class="mb-0 fw-bold">@Model.TotalCustomers</h2>
                         </div>
-                        <div class="col-auto">
-                            <i class="bi bi-people text-gray-300 h1 mb-0"></i>
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                            <i class="bi bi-people text-white h4 mb-0"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card border-start border-info border-4 shadow h-100 py-2">
+            <div class="card bg-info bg-gradient text-white h-100">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Total Orders
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold">@Model.TotalOrders</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-2">Total Orders</h6>
+                            <h2 class="mb-0 fw-bold">@Model.TotalOrders</h2>
                         </div>
-                        <div class="col-auto">
-                            <i class="bi bi-cart text-gray-300 h1 mb-0"></i>
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                            <i class="bi bi-cart text-white h4 mb-0"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card border-start border-warning border-4 shadow h-100 py-2">
+            <div class="card bg-warning bg-gradient text-white h-100">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Average Order Value
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold">€@Model.AverageOrderValue.ToString("N2")</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-2">Average Value</h6>
+                            <h2 class="mb-0 fw-bold">€@Model.AverageOrderValue.ToString("N2")</h2>
                         </div>
-                        <div class="col-auto">
-                            <i class="bi bi-currency-euro text-gray-300 h1 mb-0"></i>
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3">
+                            <i class="bi bi-currency-euro text-white h4 mb-0"></i>
                         </div>
                     </div>
                 </div>
@@ -94,31 +79,21 @@
     <div class="row g-4 mb-4">
         <!-- Orders Timeline Chart -->
         <div class="col-xl-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Orders Timeline</h6>
-                    <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
-                            <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
-                            <li><a class="dropdown-item" href="#">Last Year</a></li>
-                        </ul>
-                    </div>
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">Orders Timeline</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="ordersTimelineChart" style="height: 300px;"></canvas>
+                    <canvas id="ordersTimelineChart"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Products by Category Doughnut Chart -->
         <div class="col-xl-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Products by Category</h6>
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">Products by Category</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="categoryChart"></canvas>
@@ -127,13 +102,13 @@
         </div>
     </div>
 
-    <!-- Second Charts Row -->
-    <div class="row g-4 mb-4">
-        <!-- Top Products Bar Chart -->
+    <!-- Second Row -->
+    <div class="row g-4">
+        <!-- Top Products Chart -->
         <div class="col-xl-6">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Top Products by Price</h6>
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">Top Products by Price</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="topProductsChart"></canvas>
@@ -143,38 +118,37 @@
 
         <!-- Recent Orders Table -->
         <div class="col-xl-6">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Recent Orders</h6>
-                    <a href="#" class="btn btn-sm btn-primary">View All</a>
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">Recent Orders</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
+                                    <th class="border-0">Order ID</th>
+                                    <th class="border-0">Customer</th>
+                                    <th class="border-0">Date</th>
+                                    <th class="border-0">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var order in Model.RecentOrders)
                                 {
                                     <tr>
-                                        <td>#@order.Id</td>
-                                        <td>
+                                        <td class="align-middle">#@order.Id</td>
+                                        <td class="align-middle">
                                             <div class="d-flex align-items-center">
                                                 <div class="bg-light rounded-circle p-2 me-2">
-                                                    <i class="bi bi-person"></i>
+                                                    <i class="bi bi-person text-secondary"></i>
                                                 </div>
-                                                @order.Customer.Name
+                                                <span>@order.Customer.Name</span>
                                             </div>
                                         </td>
-                                        <td>@order.OrderDate.ToShortDateString()</td>
-                                        <td>
-                                            <span class="badge bg-success rounded-pill">Completed</span>
+                                        <td class="align-middle">@order.OrderDate.ToShortDateString()</td>
+                                        <td class="align-middle">
+                                            <span class="badge bg-success rounded-pill px-3">Completed</span>
                                         </td>
                                     </tr>
                                 }
@@ -190,18 +164,24 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Set default Chart.js options for all charts
+        Chart.defaults.font.family = "'Inter', 'Helvetica', 'Arial', sans-serif";
+        Chart.defaults.color = '#6c757d';
+        Chart.defaults.plugins.legend.position = 'bottom';
+
         // Products by Category Chart
         const categoryData = {
             labels: [@Html.Raw(string.Join(",", Model.ProductsByCategory.Select(c => $"'{c.Category}'")))],
             datasets: [{
                 data: [@string.Join(",", Model.ProductsByCategory.Select(c => c.Count))],
                 backgroundColor: [
-                    '#4e73df',
-                    '#1cc88a',
-                    '#36b9cc',
-                    '#f6c23e',
-                    '#e74a3b'
-                ]
+                    'rgba(78, 115, 223, 0.8)',
+                    'rgba(28, 200, 138, 0.8)',
+                    'rgba(54, 185, 204, 0.8)',
+                    'rgba(246, 194, 62, 0.8)',
+                    'rgba(231, 74, 59, 0.8)'
+                ],
+                borderWidth: 0
             }]
         };
 
@@ -211,8 +191,10 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '70%',
                 plugins: {
                     legend: {
+                        display: true,
                         position: 'bottom'
                     }
                 }
@@ -225,10 +207,14 @@
             datasets: [{
                 label: 'Orders',
                 data: [@string.Join(",", Model.OrdersTimeline.Select(o => o.Count))],
-                borderColor: '#4e73df',
+                borderColor: 'rgba(78, 115, 223, 1)',
+                backgroundColor: 'rgba(78, 115, 223, 0.1)',
                 tension: 0.4,
                 fill: true,
-                backgroundColor: 'rgba(78, 115, 223, 0.05)'
+                pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4
             }]
         };
 
@@ -247,6 +233,7 @@
                     y: {
                         beginAtZero: true,
                         grid: {
+                            borderDash: [2],
                             drawBorder: false
                         }
                     },
@@ -263,10 +250,11 @@
         const productsData = {
             labels: [@Html.Raw(string.Join(",", Model.TopProducts.Select(p => $"'{p.Name}'")))],
             datasets: [{
-                label: 'Price',
+                label: 'Price (€)',
                 data: [@string.Join(",", Model.TopProducts.Select(p => p.Price))],
-                backgroundColor: '#1cc88a',
-                borderRadius: 4
+                backgroundColor: 'rgba(28, 200, 138, 0.8)',
+                borderRadius: 4,
+                maxBarThickness: 32
             }]
         };
 
@@ -285,7 +273,13 @@
                     y: {
                         beginAtZero: true,
                         grid: {
+                            borderDash: [2],
                             drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '€' + value;
+                            }
                         }
                     },
                     x: {

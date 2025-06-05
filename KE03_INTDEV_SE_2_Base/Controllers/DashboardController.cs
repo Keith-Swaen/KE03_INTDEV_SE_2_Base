@@ -22,19 +22,62 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         public IActionResult Index()
         {
+            var allOrders = _orderRepository.GetAllOrders().ToList();
+            var allProducts = _productRepository.GetAllProducts().ToList();
+
+            // Calculate average order value based on product prices
+            var averageOrderValue = allProducts.Any() 
+                ? allProducts.Average(p => p.Price) 
+                : 0;
+
+            // Get orders timeline for the last 7 days
+            var last7Days = Enumerable.Range(0, 7)
+                .Select(i => DateTime.Today.AddDays(-i))
+                .Reverse()
+                .ToList();
+
+            var ordersTimeline = last7Days
+                .Select(date => new TimelineData
+                {
+                    Date = date,
+                    Count = allOrders.Count(o => o.OrderDate.Date == date)
+                })
+                .ToList();
+
+            // Get top 5 products by price
+            var topProducts = allProducts
+                .OrderByDescending(p => p.Price)
+                .Take(5)
+                .Select(p => new ProductData
+                {
+                    Name = p.Name,
+                    Price = p.Price
+                })
+                .ToList();
+
+            // Group products by category
+            var productsByCategory = allProducts
+                .GroupBy(p => !string.IsNullOrEmpty(p.Category) ? p.Category : "Uncategorized")
+                .Select(g => new CategoryCount 
+                { 
+                    Category = g.Key ?? "Uncategorized", 
+                    Count = g.Count() 
+                })
+                .ToList();
+
             var dashboardViewModel = new DashboardViewModel
             {
-                TotalProducts = _productRepository.GetAllProducts().Count(),
+                TotalProducts = allProducts.Count,
                 TotalCustomers = _customerRepository.GetAllCustomers().Count(),
-                TotalOrders = _orderRepository.GetAllOrders().Count(),
-                RecentOrders = _orderRepository.GetAllOrders()
+                TotalOrders = allOrders.Count,
+                AverageOrderValue = averageOrderValue,
+                RecentOrders = allOrders
                     .OrderByDescending(o => o.OrderDate)
                     .Take(5)
                     .ToList(),
-                ProductsByCategory = _productRepository.GetAllProducts()
-                    .GroupBy(p => p.Category ?? "Uncategorized")
-                    .Select(g => new CategoryCount { Category = g.Key, Count = g.Count() })
-                    .ToList()
+                ProductsByCategory = productsByCategory,
+                OrdersTimeline = ordersTimeline,
+                TopProducts = topProducts
             };
 
             return View(dashboardViewModel);
