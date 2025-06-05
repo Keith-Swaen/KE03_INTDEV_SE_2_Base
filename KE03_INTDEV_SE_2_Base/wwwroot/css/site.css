@@ -22,7 +22,7 @@ body {
   background: #f8f9fa;
 }
 
-/* Mobile Header */
+/* Mobiele Header */
 .mobile-header {
   position: fixed;
   top: 0;
@@ -51,7 +51,7 @@ body {
   flex-grow: 1;
 }
 
-/* Mobile Navigation Dropdown */
+/* Mobiele Navigatie Dropdown */
 .mobile-nav-dropdown .btn {
   color: white;
   padding: 0.5rem;
@@ -90,7 +90,7 @@ body {
   border-color: #e9ecef;
 }
 
-/* Sidebar Styles */
+/* Zijbalk Stijlen */
 .wrapper {
     display: flex;
     width: 100%;
@@ -172,16 +172,16 @@ body {
     color: #ecf0f1;
 }
 
-/* Responsive Sidebar */
+/* Responsieve Zijbalk */
 @media (max-width: 768px) {
     body {
-        padding-top: 60px; /* Add padding for fixed header */
+        padding-top: 60px; /* Ruimte voor vaste header */
     }
 
     .sidebar {
         margin-left: -250px;
         position: fixed;
-        top: 60px; /* Position below fixed header */
+        top: 60px; /* Positie onder vaste header */
         left: 0;
         height: calc(100vh - 60px);
         z-index: 1020;
@@ -197,7 +197,7 @@ body {
     }
 }
 
-/* Desktop styles */
+/* Desktop stijlen */
 @media (min-width: 769px) {
     .sidebar {
         margin-left: 0 !important;
@@ -209,7 +209,7 @@ body {
     }
 }
 
-/* Keep existing styles */
+/* Behoud bestaande stijlen */
 .welcome-text {
     text-align: center;
     margin-top: 3rem;
@@ -265,7 +265,7 @@ body {
         background-color: #0056b3;
     }
 
-/* Footer adjustments for sidebar layout */
+/* Footer aanpassingen voor zijbalk layout */
 .footer {
     position: relative;
     margin-top: auto;
