@@ -43,6 +43,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("Login poging voor gebruiker: {Username}", model.Username);
+                
                 var admin = _context.Admins
                     .FirstOrDefault(a => a.Username == model.Username && a.Password == model.Password);
 
@@ -65,10 +67,16 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
 
+                    _logger.LogInformation("Succesvolle login voor gebruiker: {Username}", admin.Username);
                     return RedirectToAction("Index", "Home");
                 }
 
+                _logger.LogWarning("Mislukte login poging voor gebruiker: {Username}", model.Username);
                 ModelState.AddModelError("", "Ongeldige gebruikersnaam of wachtwoord");
+            }
+            else
+            {
+                _logger.LogWarning("Ongeldige modelstatus bij login poging");
             }
 
             return View(model);
@@ -77,14 +85,18 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            var username = User.Identity?.Name;
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            _logger.LogInformation("Gebruiker {Username} is uitgelogd", username);
             return RedirectToAction("Login");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            _logger.LogError("Er is een fout opgetreden. Request ID: {RequestId}", requestId);
+            return View(new ErrorViewModel { RequestId = requestId });
         }
     }
 }

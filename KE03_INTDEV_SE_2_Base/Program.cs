@@ -3,6 +3,7 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Logging;
 
 namespace KE03_INTDEV_SE_2_Base
 {
@@ -12,19 +13,25 @@ namespace KE03_INTDEV_SE_2_Base
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Logging configureren
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
+            builder.Logging.AddEventSourceLogger();
+
+            // Services toevoegen aan de container
             builder.Services.AddDbContext<MatrixIncDbContext>(
                 options => options.UseSqlite("Data Source=MatrixInc.db"));
             builder.Services.AddControllersWithViews();
 
-            // Add cookie authentication
+            // Cookie authenticatie toevoegen
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Home/Login";
                 });
 
-            // Register repositories in DI container
+            // Repositories registreren in DI container
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -32,14 +39,14 @@ namespace KE03_INTDEV_SE_2_Base
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // HTTP request pipeline configureren
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
-            // Ensure database is created and seeded
+            // Zorg ervoor dat de database wordt aangemaakt en gevuld
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -54,7 +61,7 @@ namespace KE03_INTDEV_SE_2_Base
 
             app.UseRouting();
 
-            // Add authentication and authorization middleware
+            // Authenticatie en autorisatie middleware toevoegen
             app.UseAuthentication();
             app.UseAuthorization();
 
