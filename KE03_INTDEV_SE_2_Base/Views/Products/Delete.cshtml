@@ -1,0 +1,38 @@
+@model DataAccessLayer.Models.Product
+
+@{
+    ViewData["Title"] = "Product Verwijderen";
+}
+
+<h1>Product Verwijderen</h1>
+
+<h3>Weet je zeker dat je dit product wilt verwijderen?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Naam
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Beschrijving
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Prijs
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Verwijderen" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+    </form>
+</div> 
