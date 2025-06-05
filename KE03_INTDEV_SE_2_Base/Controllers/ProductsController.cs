@@ -23,6 +23,23 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(products);
         }
 
+        // GET: Producten/Details/5
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = _productRepository.GetProductById(id.Value);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
         // GET: Producten/Creëren
         public IActionResult Create()
         {
