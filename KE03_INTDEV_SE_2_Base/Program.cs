@@ -2,6 +2,7 @@ using DataAccessLayer;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace KE03_INTDEV_SE_2_Base
 {
@@ -12,17 +13,18 @@ namespace KE03_INTDEV_SE_2_Base
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            // We gebruiken voor nu even een SQLite voor de database,
-            // omdat deze eenvoudig lokaal te gebruiken is en geen extra configuratie nodig heeft.
             builder.Services.AddDbContext<MatrixIncDbContext>(
                 options => options.UseSqlite("Data Source=MatrixInc.db"));
             builder.Services.AddControllersWithViews();
 
-            //builder.Services.AddDbContext<MatrixIncDbContext>(options =>
-              //   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            // Add cookie authentication
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login";
+                });
 
-
-            // We registreren de repositories in de DI container
+            // Register repositories in DI container
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -34,11 +36,10 @@ namespace KE03_INTDEV_SE_2_Base
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
-            // Zorg ervoor dat de database is aangemaakt en gevuld met testdata
+            // Ensure database is created and seeded
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -53,6 +54,8 @@ namespace KE03_INTDEV_SE_2_Base
 
             app.UseRouting();
 
+            // Add authentication and authorization middleware
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
