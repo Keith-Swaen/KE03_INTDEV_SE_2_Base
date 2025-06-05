@@ -58,8 +58,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // POST: Klanten/Create
-        // Om overposting aanvallen te voorkomen, schakel de specifieke eigenschappen in die je wilt binden.
-        // Voor meer details, zie http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,Active")] Customer customer)
@@ -96,8 +94,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // POST: Klanten/Edit/5
-        // Om overposting aanvallen te voorkomen, schakel de specifieke eigenschappen in die je wilt binden.
-        // Voor meer details, zie http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Active")] Customer customer)
