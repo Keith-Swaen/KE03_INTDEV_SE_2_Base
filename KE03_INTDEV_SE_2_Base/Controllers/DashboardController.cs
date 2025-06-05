@@ -20,7 +20,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         public IActionResult Index()
         {
-            // First, get the orders with their products
             var ordersWithProducts = _context.Orders
                 .Include(o => o.Products)
                 .ToList();
@@ -30,15 +29,13 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 TotalProducts = _context.Products.Count(),
                 TotalCustomers = _context.Customers.Count(),
                 TotalOrders = ordersWithProducts.Count,
-                // Calculate total revenue on the client side
                 TotalRevenue = ordersWithProducts
                     .SelectMany(o => o.Products)
                     .Sum(p => p.Price)
             };
 
-            // Product price distribution
             var priceRanges = new[] { 0m, 100m, 500m, 1000m, 5000m, decimal.MaxValue };
-            var products = _context.Products.ToList(); // Get products to client side
+            var products = _context.Products.ToList(); 
             var distribution = new List<ChartDataPoint>();
             
             for (int i = 0; i < priceRanges.Length - 1; i++)
@@ -52,7 +49,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             }
             viewModel.ProductPriceDistribution = distribution;
 
-            // Orders over time (last 7 days)
             var last7Days = Enumerable.Range(0, 7)
                 .Select(i => DateTime.Now.Date.AddDays(-i))
                 .Reverse()
@@ -64,7 +60,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 Value = ordersWithProducts.Count(o => o.OrderDate.Date == date)
             }).ToList();
 
-            // Top 5 products by order count
             var productsWithOrders = _context.Products
                 .Include(p => p.Orders)
                 .ToList();
