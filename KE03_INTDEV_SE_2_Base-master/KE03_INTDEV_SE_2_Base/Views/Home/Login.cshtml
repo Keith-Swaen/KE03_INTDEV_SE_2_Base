@@ -1,0 +1,40 @@
+@model KE03_INTDEV_SE_2_Base.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Inloggen";
+}
+
+<div class="welcome-text">
+    <h1>Welkom bij de Matrix Inc. Admin panel</h1>
+</div>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Inloggen</h2>
+
+        @* Display validation errors *@
+        @if (!ViewData.ModelState.IsValid)
+        {
+        <div class="validation-summary-errors text-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+            <p>@error.ErrorMessage</p>
+                }
+        </div>
+        }
+
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Gebruikersnaam</label>
+                <input type="text" id="username" name="Username" class="form-control" placeholder="Voer je gebruikersnaam in" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Wachtwoord</label>
+                <input type="password" id="password" name="Password" class="form-control" placeholder="Voer je wachtwoord in" />
+            </div>
+
+            <button type="submit" class="btn-primary">Inloggen</button>
+        </form>
+    </div>
+</div>
