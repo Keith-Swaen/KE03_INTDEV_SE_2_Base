@@ -19,8 +19,197 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: #f8f9fa;
 }
 
+/* Mobiele Header */
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 1030;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mobile-header .btn {
+  color: white;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.mobile-title {
+  margin: 0 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+/* Mobiele Navigatie Dropdown */
+.mobile-nav-dropdown .btn {
+  color: white;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.mobile-nav-dropdown .dropdown-menu {
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+  min-width: 200px;
+}
+
+.mobile-nav-dropdown .dropdown-item {
+  padding: 0.75rem 1rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobile-nav-dropdown .dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.mobile-nav-dropdown .dropdown-item i {
+  width: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.mobile-nav-dropdown .dropdown-divider {
+  margin: 0.5rem 0;
+  border-color: #e9ecef;
+}
+
+/* Zijbalk Stijlen */
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+.sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background: #2c3e50;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.sidebar.active {
+    margin-left: -250px;
+}
+
+.sidebar .sidebar-header {
+    padding: 20px;
+    background: #1a252f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar .sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sidebar ul.components {
+    padding: 20px 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar ul li a {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #34495e;
+    color: #fff;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebarCollapse {
+    background: transparent;
+    border: none;
+    color: #fff;
+    display: none; /* Hide by default on desktop */
+}
+
+#sidebarCollapse:hover {
+    color: #ecf0f1;
+}
+
+/* Responsieve Zijbalk */
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px; /* Ruimte voor vaste header */
+    }
+
+    .sidebar {
+        margin-left: -250px;
+        position: fixed;
+        top: 60px; /* Positie onder vaste header */
+        left: 0;
+        height: calc(100vh - 60px);
+        z-index: 1020;
+    }
+
+    .sidebar.active {
+        margin-left: 0;
+    }
+
+    #content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
+/* Desktop stijlen */
+@media (min-width: 769px) {
+    .sidebar {
+        margin-left: 0 !important;
+    }
+
+    #content {
+        margin-left: 0;
+        padding: 2rem;
+    }
+}
+
+/* Behoud bestaande stijlen */
 .welcome-text {
     text-align: center;
     margin-top: 3rem;
@@ -75,3 +264,13 @@ body {
     .btn-primary:hover {
         background-color: #0056b3;
     }
+
+/* Footer aanpassingen voor zijbalk layout */
+.footer {
+    position: relative;
+    margin-top: auto;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    padding: 0 20px;
+}
