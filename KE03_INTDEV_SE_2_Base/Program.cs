@@ -20,8 +20,8 @@ namespace KE03_INTDEV_SE_2_Base
             builder.Logging.AddEventSourceLogger();
 
             // Services toevoegen aan de container
-            builder.Services.AddDbContext<MatrixIncDbContext>(
-                options => options.UseSqlite("Data Source=MatrixInc.db"));
+            builder.Services.AddDbContext<MatrixIncDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllersWithViews();
 
             // Cookie authenticatie toevoegen
@@ -46,13 +46,13 @@ namespace KE03_INTDEV_SE_2_Base
                 app.UseHsts();
             }
 
-            // Zorg ervoor dat de database wordt aangemaakt en gevuld
+            // Database initialiseren en migreren
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
                 var context = services.GetRequiredService<MatrixIncDbContext>();
-                context.Database.EnsureCreated();
+                context.Database.Migrate(); // Migraties toepassen
                 MatrixIncDbInitializer.Initialize(context);
             }
 
