@@ -18,20 +18,18 @@ namespace DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Relatie tussen Customer en Orders configureren
             modelBuilder.Entity<Customer>()
                 .HasMany(c => c.Orders)
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId).IsRequired();
 
-            //modelBuilder.Entity<Order>()
-            //    .HasOne(o => o.Customer)
-            //    .WithMany(c => c.Orders)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
+            // Relatie tussen Product en Orders configureren (many-to-many)
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Orders)
                 .WithMany(o => o.Products);
 
+            // Relatie tussen Part en Products configureren (many-to-many)
             modelBuilder.Entity<Part>()
                 .HasMany(p => p.Products)
                 .WithMany(p => p.Parts);
