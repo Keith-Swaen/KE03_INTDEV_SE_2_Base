@@ -57,7 +57,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         // POST: Producten/Creëren
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Description,Price")] Product product)
+        public IActionResult Create([Bind("Name,Description,Price,StockQuantity")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         // POST: Producten/Bewerken/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Description,Price")] Product product)
+        public IActionResult Edit(int id, [Bind("Id,Name,Description,Price,StockQuantity")] Product product)
         {
             if (id != product.Id)
             {
