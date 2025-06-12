@@ -11,13 +11,13 @@ namespace DataAccessLayer
     {
         public static void Initialize(MatrixIncDbContext context)
         {
-            // Look for any customers.
+            // Controleer of er al klanten in de database staan
             if (context.Customers.Any())
             {
-                return;   // DB has been seeded
+                return;   // Database is al gevuld
             }
 
-            // TODO: Hier moet ik nog wat namen verzinnen die betrekking hebben op de matrix.
+            // TODO: Hier moeten nog namen worden toegevoegd die betrekking hebben op de matrix.
             // - Denk aan de m3 boutjes, moertjes en ringetjes.
             // - Denk aan namen van schepen
             // - Denk aan namen van vliegtuigen            

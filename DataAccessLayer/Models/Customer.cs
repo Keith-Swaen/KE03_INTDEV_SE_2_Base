@@ -14,11 +14,14 @@ namespace DataAccessLayer.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Naam")]
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Adres")]
         public string Address { get; set; }
 
+        [Display(Name = "Actief")]
         public bool Active { get; set; }
 
         public ICollection<Order> Orders { get; } = new List<Order>();

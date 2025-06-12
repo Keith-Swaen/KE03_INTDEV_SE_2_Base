@@ -12,50 +12,114 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KE03_INTDEV_SE_2_Base</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="OrderOverview">Orders</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <!-- Mobiele Header -->
+    <header class="mobile-header d-md-none">
+        <button type="button" id="sidebarCollapse" class="btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="mobile-title">Matrix Inc.</h1>
+        <div class="dropdown mobile-nav-dropdown">
+            <button class="btn" type="button" id="mobileNavDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileNavDropdown">
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="Index">
+                        <i class="fas fa-users"></i> Customers
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index">
+                        <i class="fas fa-box"></i> Products
+                    </a>
+                </li>
+              asp-controller="Orders" asp-action="OrderOverview">Orders
+              <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="OrderOverview">
+                        <i class="fas fa-receipt"></i> Orders
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-shield-alt"></i> Privacy
+                    </a>
+                </li>
+            </ul>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <div class="wrapper">
+        <!-- Zijbalk -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header d-none d-md-flex">
+                <h3>Matrix Inc.</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a asp-area="" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Customers" asp-action="Index">
+                        <i class="fas fa-users"></i>
+                        <span>Customers</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Products" asp-action="Index">
+                        <i class="fas fa-box"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Orders" asp-action="OrderOverview"asp-controller="Orders" asp-action="OrderOverview">
+                        <i class="fas fa-receipt"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Privacy</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Pagina Inhoud -->
+        <div id="content">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2025 - KE03_INTDEV_SE_2_Base - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - KE03_INTDEV_SE_2_Base - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

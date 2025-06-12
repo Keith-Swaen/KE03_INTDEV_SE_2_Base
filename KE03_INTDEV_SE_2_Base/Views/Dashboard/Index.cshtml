@@ -4,91 +4,23 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<!-- Add Font Awesome and Custom CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<style>
-    .dashboard-card {
-        border-radius: 15px;
-        border: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-    }
-
-    .dashboard-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .stat-icon {
-        font-size: 2.5rem;
-        opacity: 0.8;
-    }
-
-    .chart-container {
-        position: relative;
-        margin: auto;
-        height: 300px;
-    }
-
-    .table-container {
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .dashboard-title {
-        color: #2c3e50;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid #eee;
-    }
-
-    .card-title {
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-    }
-
-    .card-value {
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin: 0.5rem 0;
-    }
-
-    .bg-gradient-primary {
-        background: linear-gradient(45deg, #4e73df, #224abe);
-    }
-
-    .bg-gradient-success {
-        background: linear-gradient(45deg, #1cc88a, #13855c);
-    }
-
-    .bg-gradient-info {
-        background: linear-gradient(45deg, #36b9cc, #258391);
-    }
-
-    .bg-gradient-warning {
-        background: linear-gradient(45deg, #f6c23e, #dda20a);
-    }
-</style>
 
 <div class="container-fluid py-4">
-    <h1 class="dashboard-title">
+    <h1 class="border-bottom pb-3 mb-4 text-dark fw-bold">
         <i class="fas fa-tachometer-alt me-2"></i>Matrix Inc. Overzicht
     </h1>
-
-    <!-- Stats Cards -->
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="card dashboard-card bg-gradient-primary text-white h-100">
+            <div class="card h-100 bg-primary text-white shadow-sm transition-transform hover-lift">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-0">Totaal Producten</h6>
-                            <div class="card-value">@Model.TotalProducts</div>
+                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Producten</h6>
+                            <div class="display-6 fw-bold">@Model.TotalProducts</div>
                             <div class="small">Beschikbare Producten</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="fs-1 opacity-75">
                             <i class="fas fa-box"></i>
                         </div>
                     </div>
@@ -96,15 +28,15 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card dashboard-card bg-gradient-success text-white h-100">
+            <div class="card h-100 bg-success text-white shadow-sm transition-transform hover-lift">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-0">Totaal Klanten</h6>
-                            <div class="card-value">@Model.TotalCustomers</div>
+                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Klanten</h6>
+                            <div class="display-6 fw-bold">@Model.TotalCustomers</div>
                             <div class="small">Geregistreerde Klanten</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="fs-1 opacity-75">
                             <i class="fas fa-users"></i>
                         </div>
                     </div>
@@ -112,15 +44,15 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card dashboard-card bg-gradient-info text-white h-100">
+            <div class="card h-100 bg-info text-white shadow-sm transition-transform hover-lift">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-0">Totaal Bestellingen</h6>
-                            <div class="card-value">@Model.TotalOrders</div>
+                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Bestellingen</h6>
+                            <div class="display-6 fw-bold">@Model.TotalOrders</div>
                             <div class="small">Verwerkte Bestellingen</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="fs-1 opacity-75">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                     </div>
@@ -128,15 +60,15 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card dashboard-card bg-gradient-warning text-white h-100">
+            <div class="card h-100 bg-warning text-white shadow-sm transition-transform hover-lift">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title mb-0">Totale Omzet</h6>
-                            <div class="card-value">€@Model.TotalRevenue.ToString("N0")</div>
+                            <h6 class="text-uppercase fw-bold small mb-0">Totale Omzet</h6>
+                            <div class="display-6 fw-bold">€@Model.TotalRevenue.ToString("N0")</div>
                             <div class="small">Totale Verkoop</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="fs-1 opacity-75">
                             <i class="fas fa-euro-sign"></i>
                         </div>
                     </div>
@@ -145,27 +77,26 @@
         </div>
     </div>
 
-    <!-- Charts -->
     <div class="row g-4 mb-4">
         <div class="col-xl-6">
-            <div class="card dashboard-card h-100">
+            <div class="card h-100 shadow-sm transition-transform hover-lift">
                 <div class="card-body">
-                    <h5 class="card-title text-muted">
+                    <h5 class="text-muted mb-4">
                         <i class="fas fa-chart-bar me-2"></i>Prijsverdeling Producten
                     </h5>
-                    <div class="chart-container">
+                    <div style="height: 300px">
                         <canvas id="productPriceChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-6">
-            <div class="card dashboard-card h-100">
+            <div class="card h-100 shadow-sm transition-transform hover-lift">
                 <div class="card-body">
-                    <h5 class="card-title text-muted">
+                    <h5 class="text-muted mb-4">
                         <i class="fas fa-chart-line me-2"></i>Bestellingen over Tijd
                     </h5>
-                    <div class="chart-container">
+                    <div style="height: 300px">
                         <canvas id="ordersTimeChart"></canvas>
                     </div>
                 </div>
@@ -173,16 +104,15 @@
         </div>
     </div>
 
-    <!-- Top Products Table -->
     <div class="row">
         <div class="col-12">
-            <div class="card dashboard-card">
+            <div class="card shadow-sm transition-transform hover-lift">
                 <div class="card-body">
-                    <h5 class="card-title text-muted mb-4">
+                    <h5 class="text-muted mb-4">
                         <i class="fas fa-trophy me-2"></i>Best Presterende Producten
                     </h5>
-                    <div class="table-container">
-                        <table class="table table-hover">
+                    <div class="table-responsive rounded">
+                        <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
                                     <th>Productnaam</th>
@@ -193,7 +123,7 @@
                             <tbody>
                                 @foreach (var product in Model.TopProducts)
                                 {
-                                    <tr>
+                                    <tr class="align-middle">
                                         <td>
                                             <i class="fas fa-box me-2 text-muted"></i>
                                             @product.ProductName
@@ -213,10 +143,18 @@
     </div>
 </div>
 
+<style>
+    .transition-transform {
+        transition: transform 0.2s ease-in-out;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Custom chart configuration
         const chartConfig = {
             responsive: true,
             maintainAspectRatio: false,
@@ -227,7 +165,6 @@
             }
         };
 
-        // Product Price Distribution Chart
         new Chart(document.getElementById('productPriceChart'), {
             type: 'bar',
             data: {
@@ -258,7 +195,6 @@
             }
         });
 
-        // Orders Over Time Chart
         new Chart(document.getElementById('ordersTimeChart'), {
             type: 'line',
             data: {
