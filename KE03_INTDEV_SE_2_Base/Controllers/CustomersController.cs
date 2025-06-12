@@ -23,10 +23,16 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showInactive = false)
         {
-            _logger.LogInformation("Alle klanten worden opgehaald");
-            return View(await _context.Customers.ToListAsync());
+            _logger.LogInformation("Klanten worden opgehaald, showInactive: {ShowInactive}", showInactive);
+            ViewBag.ShowInactive = showInactive;
+            
+            var customers = showInactive 
+                ? await _context.Customers.ToListAsync()
+                : await _context.Customers.Where(c => c.Active).ToListAsync();
+                
+            return View(customers);
         }
 
         // GET: Klanten/Details/5
@@ -64,6 +70,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             if (ModelState.IsValid)
             {
+                customer.Active = true; 
                 _logger.LogInformation("Nieuwe klant wordt aangemaakt: {CustomerName}", customer.Name);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
@@ -162,9 +169,10 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
+                customer.Active = false;
+                _context.Update(customer);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Klant succesvol verwijderd met ID: {CustomerId}", id);
+                _logger.LogInformation("Klant succesvol gedeactiveerd met ID: {CustomerId}", id);
             }
             else
             {
