@@ -50,7 +50,7 @@
                                     <span class="text-muted">@Html.DisplayFor(modelItem => item.Description)</span>
                                 </td>
                                 <td class="fw-semibold">
-                                    € @item.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))
+                                    <span>€@item.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))</span>
                                 </td>
                                 <td class="fw-semibold">
                                     @item.StockQuantity
