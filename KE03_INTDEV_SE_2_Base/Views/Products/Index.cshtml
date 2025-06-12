@@ -34,6 +34,10 @@
                                 <i class="fas fa-euro-sign me-2 text-muted"></i>
                                 Prijs
                             </th>
+                            <th>
+                                <i class="fas fa-warehouse me-2 text-muted"></i>
+                                Voorraad
+                            </th>
                             <th class="text-end">Acties</th>
                         </tr>
                     </thead>
@@ -47,6 +51,9 @@
                                 </td>
                                 <td class="fw-semibold">
                                     € @item.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))
+                                </td>
+                                <td class="fw-semibold">
+                                    @item.StockQuantity
                                 </td>
                                 <td class="text-end">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Bewerken">
