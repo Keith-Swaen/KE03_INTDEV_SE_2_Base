@@ -3,6 +3,8 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace KE03_INTDEV_SE_2_Base
@@ -22,7 +24,15 @@ namespace KE03_INTDEV_SE_2_Base
             // Services toevoegen aan de container
             builder.Services.AddDbContext<MatrixIncDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddControllersWithViews();
+
+            // Authenticatie
+            builder.Services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             // Cookie authenticatie toevoegen
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

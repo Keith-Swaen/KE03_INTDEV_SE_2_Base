@@ -21,7 +21,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _context = context;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -32,19 +31,27 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View();
         }
 
+        
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 _logger.LogInformation("Login poging voor gebruiker: {Username}", model.Username);
-                
+
                 var admin = _context.Admins
                     .FirstOrDefault(a => a.Username == model.Username && a.Password == model.Password);
 
@@ -82,7 +89,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(model);
         }
 
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
             var username = User.Identity?.Name;
@@ -91,6 +97,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return RedirectToAction("Login");
         }
 
+        
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
