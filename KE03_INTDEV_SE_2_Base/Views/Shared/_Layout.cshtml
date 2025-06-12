@@ -43,6 +43,12 @@
                         <i class="fas fa-box"></i> Products
                     </a>
                 </li>
+              asp-controller="Orders" asp-action="OrderOverview">Orders
+              <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="OrderOverview">
+                        <i class="fas fa-receipt"></i> Orders
+                    </a>
+                </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">
@@ -83,6 +89,12 @@
                     <a asp-area="" asp-controller="Products" asp-action="Index">
                         <i class="fas fa-box"></i>
                         <span>Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Orders" asp-action="OrderOverview"asp-controller="Orders" asp-action="OrderOverview">
+                        <i class="fas fa-receipt"></i>
+                        <span>Orders</span>
                     </a>
                 </li>
                 <li>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DataAccessLayer.Models.Order>
+
+@{
+    ViewData["Title"] = "Order Overzicht";
+}
+
+<h2>Order Overzicht</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Orderdatum</th>
+            <th>Klantnaam</th>
+            <th>Producten</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.Customer?.Name</td>
+                <td>
+                    @if (order.Products != null && order.Products.Any())
+                    {
+                        @string.Join(", ", order.Products.Select(p => p.Name))
+                    }
+                    else
+                    {
+                        <em>Geen producten</em>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
