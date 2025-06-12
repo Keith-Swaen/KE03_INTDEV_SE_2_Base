@@ -43,8 +43,7 @@
                         <i class="fas fa-box"></i> Products
                     </a>
                 </li>
-              asp-controller="Orders" asp-action="OrderOverview">Orders
-              <li>
+                <li>
                     <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="OrderOverview">
                         <i class="fas fa-receipt"></i> Orders
                     </a>
@@ -55,6 +54,16 @@
                         <i class="fas fa-shield-alt"></i> Privacy
                     </a>
                 </li>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <form asp-controller="Home" asp-action="Logout" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-link">Logout</button>
+                    </form>
+                </li>
+                }
             </ul>
         </div>
     </header>
@@ -92,7 +101,7 @@
                     </a>
                 </li>
                 <li>
-                    <a asp-area="" asp-controller="Orders" asp-action="OrderOverview"asp-controller="Orders" asp-action="OrderOverview">
+                    <a asp-area="" asp-controller="Orders" asp-action="OrderOverview">
                         <i class="fas fa-receipt"></i>
                         <span>Orders</span>
                     </a>
@@ -103,6 +112,18 @@
                         <span>Privacy</span>
                     </a>
                 </li>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                <li>
+                    <form asp-controller="Home" asp-action="Logout" method="post" class="d-inline w-100">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-link text-start w-100">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </li>
+                }
             </ul>
         </nav>
 

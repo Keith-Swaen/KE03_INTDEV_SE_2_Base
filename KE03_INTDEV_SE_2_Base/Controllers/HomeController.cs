@@ -21,6 +21,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _context = context;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -31,16 +32,14 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View();
         }
 
-        
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
-            if (User.Identity?.IsAuthenticated == true)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
-
             return View();
         }
 
@@ -89,16 +88,17 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             var username = User.Identity?.Name;
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             _logger.LogInformation("Gebruiker {Username} is uitgelogd", username);
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Home");
         }
 
-        
-        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
