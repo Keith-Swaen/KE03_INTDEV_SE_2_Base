@@ -4,6 +4,9 @@
     ViewData["Title"] = "Klanten";
 }
 
+<div id="myGrid"></div>
+
+
 <div class="container-fluid py-4">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div>
@@ -94,3 +97,19 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        new gridjs.Grid({
+            columns: ["Naam", "Leeftijd", "E-mail"],
+            data: [
+                ["Jan", 28, "jan@example.com"],
+                ["Sofie", 32, "sofie@example.com"],
+                ["Mark", 41, "mark@example.com"]
+            ],
+            pagination: true,
+            search: true,
+            sort: true
+        }).render(document.getElementById("myGrid"));
+    </script>
+}
