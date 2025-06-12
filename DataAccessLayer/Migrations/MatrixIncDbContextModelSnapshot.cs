@@ -15,7 +15,7 @@ namespace DataAccessLayer.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
 
             modelBuilder.Entity("DataAccessLayer.Models.Admin", b =>
                 {
@@ -115,6 +115,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
