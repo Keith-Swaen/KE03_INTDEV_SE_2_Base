@@ -70,7 +70,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             if (ModelState.IsValid)
             {
-                customer.Active = true; // Ensure new customers are active by default
+                customer.Active = true; 
                 _logger.LogInformation("Nieuwe klant wordt aangemaakt: {CustomerName}", customer.Name);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
@@ -169,7 +169,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
             {
-                // Soft delete by setting Active to false
                 customer.Active = false;
                 _context.Update(customer);
                 await _context.SaveChangesAsync();
