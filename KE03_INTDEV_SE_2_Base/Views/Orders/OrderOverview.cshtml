@@ -4,35 +4,112 @@
     ViewData["Title"] = "Order Overzicht";
 }
 
-<h2>Order Overzicht</h2>
+<div class="container-fluid py-4">
+    <h1 class="h3 text-gray-800 mb-3">
+        <i class="fas fa-receipt me-2"></i>Order Overzicht
+    </h1>
+    <small class="text-muted mb-4 d-block">Bekijk hier alle bestellingen en hun details</small>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Orderdatum</th>
-            <th>Klantnaam</th>
-            <th>Producten</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.OrderDate.ToShortDateString()</td>
-                <td>@order.Customer?.Name</td>
-                <td>
-                    @if (order.Products != null && order.Products.Any())
-                    {
-                        @string.Join(", ", order.Products.Select(p => p.Name))
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <div id="gridjs-search-wrapper" class="flex-grow-1 me-3"></div>
+    </div>
+
+    <div id="orders-grid"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const grid = new gridjs.Grid({
+            columns: [
+                {
+                    name: "Order ID",
+                    sort: true,
+                    search: true
+                },
+                {
+                    name: "Orderdatum",
+                    sort: true,
+                    formatter: (cell) => {
+                        const date = new Date(cell);
+                        return date.toLocaleDateString('nl-NL');
+                    },
+                    search: {
+                        compare: (cell, keyword) => {
+                            const date = new Date(cell);
+                            const dateString = date.toLocaleDateString('nl-NL');
+                            return dateString.toLowerCase().includes(keyword.toLowerCase());
+                        }
                     }
-                    else
-                    {
-                        <em>Geen producten</em>
+                },
+                {
+                    name: "Klantnaam",
+                    sort: true,
+                    search: true
+                },
+                {
+                    name: "Producten",
+                    formatter: (cell) => {
+                        if (cell && cell.length > 0) {
+                            return cell.join(", ");
+                        }
+                        return "Geen producten";
+                    },
+                    search: {
+                        compare: (cell, keyword) => {
+                            if (!cell || cell.length === 0) return false;
+                            return cell.some(product => product.toLowerCase().includes(keyword.toLowerCase()));
+                        }
                     }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                },
+                {
+                    name: "Acties",
+                    sort: false,
+                    search: false,
+                    formatter: (cell) => gridjs.html(cell)
+                }
+            ],
+            data: [
+                @foreach (var order in Model)
+                {
+                    <text>[
+                        "@order.Id.ToString()",
+                        "@order.OrderDate.ToString("yyyy-MM-dd")",
+                        "@order.Customer?.Name",
+                        @Json.Serialize(order.Products?.Select(p => p.Name) ?? new List<string>()),
+                        `@Html.Raw($@"<a href='/Orders/Edit/{order.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
+                                     <a href='/Orders/Details/{order.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
+                                     <a href='/Orders/Delete/{order.Id}' class='btn btn-sm btn-outline-danger' title='Verwijderen'><i class='fas fa-trash'></i></a>")`
+                    ],</text>
+                }
+            ],
+            pagination: {
+                limit: 10
+            },
+            search: {
+                placeholder: 'Typ hier om te zoeken...'
+            },
+            language: {
+                search: {
+                    placeholder: 'Typ hier om te zoeken...'
+                },
+                pagination: {
+                    previous: 'Vorige',
+                    next: 'Volgende',
+                    showing: 'Toont',
+                    of: 'van',
+                    results: () => 'resultaten'
+                },
+                loading: 'Laden...',
+                noRecordsFound: 'Geen resultaten gevonden'
+            },
+            sort: true,
+            className: {
+                container: 'table-responsive',
+                table: 'table table-hover align-middle mb-0',
+                thead: 'table-light',
+                th: 'text-nowrap',
+                footer: 'table-light'
+            }
+        }).render(document.getElementById("orders-grid"));
+    </script>
+}
