@@ -21,11 +21,32 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _context = context;
         }
 
+        // [Authorize]
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
+
+
         [Authorize]
         public IActionResult Index()
         {
-            return View();
+            var dashboard = new DashboardViewModel
+            {
+                TotalProducts = _context.Products.Count(),
+                TotalCustomers = _context.Customers.Count(),
+                TotalOrders = _context.Orders.Count()
+            };
+
+            var homeViewModel = new HomeViewModel
+            {
+                Dashboard = dashboard
+            };
+
+            return View(homeViewModel);
         }
+
+
 
         public IActionResult Privacy()
         {
