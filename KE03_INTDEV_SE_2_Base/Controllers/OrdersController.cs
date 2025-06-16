@@ -20,6 +20,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             var orders = await _context.Orders
                 .Include(o => o.Customer)
+                .Include(o => o.Products)
                 .ToListAsync();
 
             return View(orders);

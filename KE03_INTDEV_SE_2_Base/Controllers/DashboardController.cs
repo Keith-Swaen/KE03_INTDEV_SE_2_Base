@@ -27,7 +27,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             var viewModel = new DashboardViewModel
             {
                 TotalProducts = _context.Products.Count(),
-                TotalCustomers = _context.Customers.Count(),
+                TotalCustomers = _context.Customers.Where(c => c.Active).Count(),
                 TotalOrders = ordersWithProducts.Count,
                 TotalRevenue = ordersWithProducts
                     .SelectMany(o => o.Products)
