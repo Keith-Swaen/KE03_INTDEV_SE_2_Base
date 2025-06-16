@@ -14,7 +14,7 @@ namespace DataAccessLayer
         public DbSet<Product> Products { get; set; }
         public DbSet<Part> Parts { get; set; }
         public DbSet<Admin> Admins { get; set; }
-
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,13 @@ namespace DataAccessLayer
             modelBuilder.Entity<Part>()
                 .HasMany(p => p.Products)
                 .WithMany(p => p.Parts);
+
+            // Relatie tussen Category en Products configureren
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .IsRequired(false);
 
             base.OnModelCreating(modelBuilder);
         }
