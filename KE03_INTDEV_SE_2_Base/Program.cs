@@ -62,7 +62,7 @@ namespace KE03_INTDEV_SE_2_Base
                 var services = scope.ServiceProvider;
 
                 var context = services.GetRequiredService<MatrixIncDbContext>();
-                context.Database.Migrate(); // Migraties toepassen
+                context.Database.EnsureCreated(); // Create database and tables without migrations
                 MatrixIncDbInitializer.Initialize(context);
             }
 
