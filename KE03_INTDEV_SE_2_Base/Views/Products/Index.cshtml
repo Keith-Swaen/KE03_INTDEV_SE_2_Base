@@ -42,6 +42,11 @@
                     search: true
                 },
                 {
+                    name: "Categorie",
+                    sort: true,
+                    search: true
+                },
+                {
                     name: "Beschrijving",
                     sort: false,
                     search: true
@@ -60,6 +65,7 @@
                         "@item.Name",
                         "@item.Price",
                         "@item.StockQuantity",
+                        "@(item.Category?.Name ?? "Geen categorie")",
                         "@item.Description",
                         `@Html.Raw($@"<a href='/Products/Edit/{item.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
                                      <a href='/Products/Details/{item.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>

@@ -7,35 +7,44 @@
 <h1>Product Details</h1>
 
 <div>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Naam
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
+        
         <dt class="col-sm-2">
-            Beschrijving
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
+        
         <dt class="col-sm-2">
-            Prijs
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class="col-sm-10">
-            € @Model.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))
+            €@Html.DisplayFor(model => model.Price)
         </dd>
+        
         <dt class="col-sm-2">
-            Voorraad
+            @Html.DisplayNameFor(model => model.StockQuantity)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StockQuantity)
         </dd>
+
+        <dt class="col-sm-2">
+            Categorie
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Category?.Name ?? "Geen categorie")
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Bewerken</a>
-    <a asp-action="Index" class="btn btn-secondary">Terug naar lijst</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Bewerken</a>
+    <a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
 </div> 
