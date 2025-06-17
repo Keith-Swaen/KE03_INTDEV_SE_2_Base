@@ -1,0 +1,80 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Models;
+
+namespace KE03_INTDEV_SE_2_Base.Controllers
+{
+    public class CategoryController : Controller
+    {
+        private readonly ICategoryRepository _categoryRepository;
+
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var categories = await _categoryRepository.GetAllCategoriesAsync();
+            return View(categories);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                await _categoryRepository.CreateCategoryAsync(category);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _categoryRepository.GetCategoryByIdAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Category category)
+        {
+            if (id != category.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _categoryRepository.UpdateCategoryAsync(category);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var success = await _categoryRepository.DeleteCategoryAsync(id);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+    }
+} 
