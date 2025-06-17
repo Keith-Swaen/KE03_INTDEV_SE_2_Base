@@ -18,5 +18,7 @@ namespace DataAccessLayer.Interfaces
         public void UpdateProduct(Product product);
 
         public void DeleteProduct(Product product);
+        
+        Task<bool> AddCategoryToProductAsync(int productId, int categoryId);
     }
 }

@@ -11,19 +11,22 @@ namespace DataAccessLayer.Models
     {        
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public decimal Price { get; set; }
 
+        // Categorie ID voor de relatie met Category
         public int? CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        
+        // Navigatie property voor de categorie
+        public virtual Category? Category { get; set; }
 
         public int StockQuantity { get; set; }
 
-        public ICollection<Order> Orders { get; } = new List<Order>();
-
-        public ICollection<Part> Parts { get; } = new List<Part>();
+        // Navigatie properties voor orders en onderdelen
+        public virtual ICollection<Order> Orders { get; } = new List<Order>();
+        public virtual ICollection<Part> Parts { get; } = new List<Part>();
     }
 }
