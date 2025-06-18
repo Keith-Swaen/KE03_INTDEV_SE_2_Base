@@ -21,7 +21,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             var orders = await _context.Orders
                 .Include(o => o.Customer)
-                .Include(o => o.Products)
+                .Include(o => o.OrderProducts)
                 .ToListAsync();
 
             return View(orders);

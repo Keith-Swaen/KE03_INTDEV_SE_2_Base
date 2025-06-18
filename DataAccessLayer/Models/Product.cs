@@ -26,7 +26,9 @@ namespace DataAccessLayer.Models
         public int StockQuantity { get; set; }
 
         // Navigatie properties voor orders en onderdelen
-        public virtual ICollection<Order> Orders { get; } = new List<Order>();
+        //public virtual ICollection<Order> Orders { get; } = new List<Order>();
+        public virtual ICollection<OrderProduct> OrderProducts { get; } = new List<OrderProduct>();
+
         public virtual ICollection<Part> Parts { get; } = new List<Part>();
     }
 }

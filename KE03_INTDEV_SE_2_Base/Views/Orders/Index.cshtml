@@ -83,8 +83,8 @@
                         "@order.Id.ToString()",
                         "@order.OrderDate.ToString("yyyy-MM-dd")",
                         "@order.Customer?.Name",
-                        @Json.Serialize(order.Products?.Select(p => p.Name) ?? new List<string>()),
-                        "@order.Products.Sum(p => p.Price)",
+                        @Json.Serialize(order.OrderProducts?.Select(p => p.ProductName) ?? new List<string>()),
+                        "@order.OrderProducts.Sum(p => p.ProductPrice)",
                         `@Html.Raw($@"<a href='/Orders/Edit/{order.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
                                      <a href='/Orders/Details/{order.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
                                      <a href='/Orders/Delete/{order.Id}' class='btn btn-sm btn-outline-danger' title='Verwijderen'><i class='fas fa-trash'></i></a>")`

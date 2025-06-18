@@ -21,7 +21,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         public IActionResult Index()
         {
             var ordersWithProducts = _context.Orders
-                .Include(o => o.Products)
+                .Include(o => o.OrderProducts)
                 .ToList();
 
             var viewModel = new DashboardViewModel
@@ -30,8 +30,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 TotalCustomers = _context.Customers.Where(c => c.Active).Count(),
                 TotalOrders = ordersWithProducts.Count,
                 TotalRevenue = ordersWithProducts
-                    .SelectMany(o => o.Products)
-                    .Sum(p => p.Price)
+                    .SelectMany(o => o.OrderProducts)
+                    .Sum(p => p.ProductPrice)
             };
 
             var priceRanges = new[] { 0m, 100m, 500m, 1000m, 5000m, decimal.MaxValue };
@@ -60,16 +60,19 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 Value = ordersWithProducts.Count(o => o.OrderDate.Date == date)
             }).ToList();
 
-            var productsWithOrders = _context.Products
-                .Include(p => p.Orders)
-                .ToList();
+           
+            // werkt maar kost veel moeite bij grote dataset 
+            var productsWithOrderProducts = _context.OrderProducts
+                .Include(op => op.Product)
+                .ToList(); // ⬅ haalt eerst alles op van de database
 
-            viewModel.TopProducts = productsWithOrders
-                .Select(p => new TopProductViewModel
+            viewModel.TopProducts = productsWithOrderProducts
+                .GroupBy(op => op.Product)
+                .Select(g => new TopProductViewModel
                 {
-                    ProductName = p.Name,
-                    OrderCount = p.Orders.Count,
-                    TotalRevenue = p.Price * p.Orders.Count
+                    ProductName = g.Key.Name,
+                    OrderCount = g.Count(),
+                    TotalRevenue = g.Sum(op => op.ProductPrice * op.Quantity) 
                 })
                 .OrderByDescending(p => p.OrderCount)
                 .Take(5)
