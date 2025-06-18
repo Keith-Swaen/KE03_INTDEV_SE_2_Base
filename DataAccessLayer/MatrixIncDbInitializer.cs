@@ -35,8 +35,7 @@ namespace DataAccessLayer
                 new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-02-01")},
                 new Order { Customer = customers[1], OrderDate = DateTime.Parse("2021-02-01")},
                 new Order { Customer = customers[2], OrderDate = DateTime.Parse("2021-03-01")}
-            };  
-            context.Orders.AddRange(orders);
+            };
 
             var products = new Product[]
             {
@@ -44,6 +43,18 @@ namespace DataAccessLayer
                 new Product { Name = "Jack-in Chair", Description = "Stoel met een rugsteun en metalen armen waarin mensen zitten om ingeplugd te worden in de Matrix via een kabel in de nekpoort", Price = 500.50m, StockQuantity = 10 },
                 new Product { Name = "EMP (Electro-Magnetic Pulse) Device", Description = "Wapentuig op de schepen van Zion", Price = 129.99m, StockQuantity = 5 }
             };
+            // Voeg producten toe aan orders
+            orders[0].Products.Add(products[0]); // Order 1 krijgt product 1
+            orders[0].Products.Add(products[1]); // Order 1 krijgt product 2
+
+            orders[1].Products.Add(products[2]); // Order 2 krijgt product 3
+
+            orders[2].Products.Add(products[0]); // Order 3 krijgt product 1
+            orders[2].Products.Add(products[2]); // Order 3 krijgt product 3
+
+            orders[3].Products.Add(products[1]); // Order 4 krijgt product 2
+
+            context.Orders.AddRange(orders);
             context.Products.AddRange(products);
 
             var parts = new Part[]
