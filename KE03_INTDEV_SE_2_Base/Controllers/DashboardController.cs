@@ -67,12 +67,12 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 .ToList(); // ⬅ haalt eerst alles op van de database
 
             viewModel.TopProducts = productsWithOrderProducts
-                .GroupBy(op => op.Product)
+                .GroupBy(op => op.ProductName) // groepeer op opgeslagen naam
                 .Select(g => new TopProductViewModel
                 {
-                    ProductName = g.Key.Name,
+                    ProductName = g.Key, // g.Key is nu gewoon een string
                     OrderCount = g.Count(),
-                    TotalRevenue = g.Sum(op => op.ProductPrice * op.Quantity) 
+                    TotalRevenue = g.Sum(op => op.ProductPrice * op.Quantity)
                 })
                 .OrderByDescending(p => p.OrderCount)
                 .Take(5)
