@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
@@ -204,6 +205,37 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             {
                 _logger.LogError(ex, "Fout bij het toevoegen van categorie aan product: {ProductId}", productId);
                 return RedirectToAction(nameof(Edit), new { id = productId });
+            }
+        }
+
+        // GET: Products/Export
+        public IActionResult Export()
+        {
+            try
+            {
+                _logger.LogInformation("Producten export wordt gestart");
+                var products = _productRepository.GetAllProducts();
+                
+                var csv = new StringBuilder();
+                csv.AppendLine("Naam,Beschrijving,Prijs,Voorraad,Categorie");
+                
+                foreach (var product in products)
+                {
+                    var categoryName = product.Category?.Name ?? "Geen categorie";
+                    var description = product.Description?.Replace("\"", "\"\"") ?? "";
+                    csv.AppendLine($"\"{product.Name}\",\"{description}\",{product.Price.ToString("F2", _nlCulture)},{product.StockQuantity},\"{categoryName}\"");
+                }
+                
+                var fileName = $"producten_export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                var bytes = Encoding.UTF8.GetBytes(csv.ToString());
+                
+                _logger.LogInformation("Producten export succesvol voltooid: {FileName}", fileName);
+                return File(bytes, "text/csv", fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fout bij het exporteren van producten");
+                return RedirectToAction(nameof(Index));
             }
         }
     }
