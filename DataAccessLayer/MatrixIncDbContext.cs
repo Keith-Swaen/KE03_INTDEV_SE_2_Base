@@ -16,25 +16,38 @@ namespace DataAccessLayer
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        // ✅ Nieuw toegevoegd
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Relatie tussen Customer en Orders configureren
+            // Relatie tussen Customer en Orders
             modelBuilder.Entity<Customer>()
                 .HasMany(c => c.Orders)
                 .WithOne(o => o.Customer)
-                .HasForeignKey(o => o.CustomerId).IsRequired();
+                .HasForeignKey(o => o.CustomerId)
+                .IsRequired();
 
-            // Relatie tussen Product en Orders configureren (many-to-many)
-            modelBuilder.Entity<Product>()
-                .HasMany(p => p.Orders)
-                .WithMany(o => o.Products);
+            // Relatie tussen OrderProduct en Order
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Order)
+                .WithMany(o => o.OrderProducts)
+                .HasForeignKey(op => op.OrderId);
 
-            // Relatie tussen Part en Products configureren (many-to-many)
+            // Relatie tussen OrderProduct en Product
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Product)
+                .WithMany(p => p.OrderProducts)
+                .HasForeignKey(op => op.ProductId)
+                .OnDelete(DeleteBehavior.SetNull); // Zet bij verwijderen van Product de verwijzing naar null
+
+
+            // Relatie tussen Part en Products (many-to-many)
             modelBuilder.Entity<Part>()
                 .HasMany(p => p.Products)
                 .WithMany(p => p.Parts);
 
-            // Relatie tussen Category en Products configureren
+            // Relatie tussen Category en Products
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
