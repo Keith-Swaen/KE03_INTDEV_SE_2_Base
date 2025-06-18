@@ -23,15 +23,27 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten
-        public async Task<IActionResult> Index(bool showInactive = false)
+        public async Task<IActionResult> Index(string filter = "all")
         {
-            _logger.LogInformation("Klanten worden opgehaald, showInactive: {ShowInactive}", showInactive);
-            ViewBag.ShowInactive = showInactive;
-            
-            var customers = showInactive 
-                ? await _context.Customers.ToListAsync()
-                : await _context.Customers.Where(c => c.Active).ToListAsync();
-                
+            _logger.LogInformation("Klanten worden opgehaald, filter: {Filter}", filter);
+            ViewBag.Filter = filter;
+
+            IQueryable<Customer> query = _context.Customers;
+            switch (filter?.ToLower())
+            {
+                case "active":
+                    query = query.Where(c => c.Active);
+                    break;
+                case "inactive":
+                    query = query.Where(c => !c.Active);
+                    break;
+                // case "all":
+                default:
+                    // No filter, show all
+                    break;
+            }
+
+            var customers = await query.ToListAsync();
             return View(customers);
         }
 
