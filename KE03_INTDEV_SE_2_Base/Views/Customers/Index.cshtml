@@ -15,12 +15,27 @@
            style="max-width: 140px; white-space: nowrap;">
             <i class="fas fa-plus me-1"></i>Nieuwe klant
         </a>
-        <a asp-action="Index" asp-route-showInactive="@(!ViewBag.ShowInactive)" 
-           class="btn btn-outline-secondary btn-sm d-flex align-items-center"
-           style="min-width: 200px; white-space: nowrap;">
-            <i class="fas fa-eye me-1"></i>
-            <span>@(ViewBag.ShowInactive ? "Verberg inactieve klanten" : "Toon inactieve klanten")</span>
-        </a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-filter me-1"></i>
+                @{
+                    var filter = ViewBag.Filter as string ?? "all";
+                    var filterText = filter == "active" ? "Alleen actieve klanten" : filter == "inactive" ? "Alleen inactieve klanten" : "Alle klanten";
+                }
+                @filterText
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item @(filter == "all" ? "active" : "")" asp-action="Index" asp-route-filter="all">Alle klanten</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "active" ? "active" : "")" asp-action="Index" asp-route-filter="active">Alleen actieve klanten</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "inactive" ? "active" : "")" asp-action="Index" asp-route-filter="inactive">Alleen inactieve klanten</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div id="gridjs-search-wrapper" class="mb-3"></div>
