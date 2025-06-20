@@ -48,11 +48,17 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 return NotFound();
             }
 
+            //var order = _context.Orders
+            //    .Include(o => o.Customer)
+            //    .Include(o => o.OrderProducts)
+            //        .ThenInclude(op => op.Product)
+            //    .FirstOrDefault(o => o.Id == id); 
             var order = _context.Orders
-                .Include(o => o.Customer)
                 .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
-                .FirstOrDefault(o => o.Id == id); if (order == null)
+                .Include(o => o.Customer)
+                .FirstOrDefault(o => o.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
