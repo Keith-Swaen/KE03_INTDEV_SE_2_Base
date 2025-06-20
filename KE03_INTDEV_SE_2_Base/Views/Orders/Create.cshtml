@@ -1,0 +1,135 @@
+﻿@model KE03_INTDEV_SE_2_Base.Models.OrderCreateViewModel
+
+@{
+    ViewData["Title"] = "Nieuwe Bestelling";
+}
+
+<h1>Nieuwe Bestelling</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="CustomerId">Klant</label>
+        <select asp-for="CustomerId" class="form-select" asp-items="Model.Customers" required>
+            <option value="">-- Selecteer een klant --</option>
+        </select>
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <div id="order-products">
+        @for (int i = 0; i < Model.OrderProducts.Count; i++)
+        {
+            var selectedProductId = Model.OrderProducts[i].ProductId.ToString();
+            <div class="row mb-2" data-index="@i">
+                <div class="col-6">
+                    <select name="OrderProducts[@i].ProductId" class="form-select" required onchange="onProductChange(this)">
+                        <option value="">-- Selecteer een product --</option>
+                        @foreach (var p in Model.Products)
+                        {
+                            <option value="@p.Value" selected="@(p.Value == selectedProductId ? "selected" : "")">@p.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-3">
+                    <input name="OrderProducts[@i].Quantity" type="number" min="1" value="@Model.OrderProducts[i].Quantity" class="form-control" required />
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-danger" onclick="removeProduct(this)" title="Verwijder product">×</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="button" id="btn-add-product" class="btn btn-secondary mb-3" onclick="addProduct()">+ Product toevoegen</button>
+
+    <div>
+        <button type="submit" class="btn btn-primary">Bestelling aanmaken</button>
+        <a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // Alle producten als array {value, text}
+        const allProducts = [
+        @foreach (var p in Model.Products)
+        {
+            <text>{ value: '@p.Value', text: '@p.Text' },</text>
+        }
+        ];
+
+        let productIndex = @Model.OrderProducts.Count;
+
+        function getSelectedProductIds() {
+            const selects = document.querySelectorAll('#order-products select[name$=".ProductId"]');
+            return Array.from(selects).map(s => s.value).filter(v => v);
+        }
+
+        function getAvailableProducts() {
+            const selected = getSelectedProductIds();
+            return allProducts.filter(p => !selected.includes(p.value));
+        }
+
+        function renderProductOptions(selectedValue = '') {
+            const options = getAvailableProducts().map(p => {
+                const selectedAttr = (p.value === selectedValue) ? ' selected' : '';
+                return `<option value="${p.value}"${selectedAttr}>${p.text}</option>`;
+            }).join('');
+            return `<option value="">-- Selecteer een product --</option>` + options;
+        }
+
+        function addProduct(selectedValue = '') {
+            const container = document.getElementById("order-products");
+            const available = getAvailableProducts();
+            if (available.length === 0) {
+                return;
+            }
+
+            const html = `
+                <div class="row mb-2" data-index="${productIndex}">
+                    <div class="col-6">
+                        <select name="OrderProducts[${productIndex}].ProductId" class="form-select" required onchange="onProductChange(this)">
+                            ${renderProductOptions(selectedValue)}
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <input name="OrderProducts[${productIndex}].Quantity" type="number" min="1" value="1" class="form-control" required />
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger" onclick="removeProduct(this)" title="Verwijder product">×</button>
+                    </div>
+                </div>`;
+
+            container.insertAdjacentHTML("beforeend", html);
+            productIndex++;
+            updateAddButtonState();
+        }
+
+        function removeProduct(button) {
+            button.closest('.row').remove();
+            updateAddButtonState();
+        }
+
+        function onProductChange(select) {
+            updateAddButtonState();
+            // Eventueel: pas andere dropdowns aan, zodat gekozen product uit andere dropdowns verdwijnt
+            // (voor eenvoudige versie is dit optioneel)
+        }
+
+        function updateAddButtonState() {
+            const addButton = document.getElementById("btn-add-product");
+            if (!addButton) return;
+            const available = getAvailableProducts();
+            addButton.disabled = (available.length === 0);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAddButtonState();
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
