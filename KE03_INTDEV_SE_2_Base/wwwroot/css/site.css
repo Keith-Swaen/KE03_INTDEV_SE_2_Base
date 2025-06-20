@@ -63,6 +63,14 @@ body {
   color: #fff;
   padding: 0.5rem;
   font-size: 1.25rem;
+  background: transparent;
+  border: none;
+}
+
+.mobile-nav-dropdown .btn:hover,
+.mobile-nav-dropdown .btn:focus {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .mobile-nav-dropdown .dropdown-menu {
@@ -70,16 +78,17 @@ body {
   border: 1px solid #495057;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: #343a40;
+  background: #212529;
   min-width: 200px;
 }
 
 .mobile-nav-dropdown .dropdown-item {
   padding: 0.75rem 1rem;
-  color: #f8f9fa;
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
 }
 
 .mobile-nav-dropdown .dropdown-item:hover,
@@ -89,14 +98,32 @@ body {
 }
 
 .mobile-nav-dropdown .dropdown-item i {
-  width: 20px;
+  color: #fff;
+  width: 16px;
   text-align: center;
-  color: #2c3e50;
 }
 
 .mobile-nav-dropdown .dropdown-divider {
   margin: 0.5rem 0;
   border-top: 1px solid #495057;
+}
+
+/* Special styling for logout button */
+.mobile-nav-dropdown .dropdown-item.text-danger {
+  color: #dc3545 !important;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger:hover {
+  background: #dc3545;
+  color: #fff !important;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger i {
+  color: #dc3545;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger:hover i {
+  color: #fff;
 }
 
 /* Responsive Sidebar with Bootstrap */
@@ -127,7 +154,7 @@ body {
         width: 220px;
         height: 100vh;
         box-shadow: 2px 0 8px rgba(0,0,0,0.04);
-        background: #4e73df;
+        background: #212529;
         transition: left 0.3s;
     }
     .sidebar.active {
