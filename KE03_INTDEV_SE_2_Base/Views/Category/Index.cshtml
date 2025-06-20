@@ -6,7 +6,8 @@
         c.Id,
         c.Name,
         c.Description,
-        c.CreatedAt.ToString("dd/MM/yyyy")
+        c.CreatedAt.ToString("dd/MM/yyyy"),
+        c.Active
     }).ToList();
 }
 
@@ -20,6 +21,27 @@
         <a class="btn btn-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createCategoryModal" style="max-width: 180px; white-space: nowrap;">
             <i class="fas fa-plus me-1"></i>Nieuwe categorie
         </a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-filter me-1"></i>
+                @{
+                    var filter = ViewBag.Filter as string ?? "active";
+                    var filterText = filter == "all" ? "Alle categorieën" : "Alleen actieve categorieën";
+                }
+                @filterText
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item @(filter == "active" ? "active" : "")" asp-action="Index" asp-route-filter="active">Alleen actieve categorieën</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "inactive" ? "active" : "")" asp-action="Index" asp-route-filter="inactive">Alleen inactieve categorieën</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "all" ? "active" : "")" asp-action="Index" asp-route-filter="all">Alle categorieën</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div id="gridjs-search-wrapper" class="mb-3"></div>
@@ -57,6 +79,17 @@
                 { name: "Naam", sort: true, search: true },
                 { name: "Beschrijving", sort: true, search: true },
                 { name: "Aangemaakt op", sort: true, search: false },
+                {
+                    name: "Status",
+                    sort: true,
+                    formatter: (cel) => {
+                        if (cel === true || cel === "true" || cel === 1) {
+                            return gridjs.html("<span class='badge bg-primary'>Actief</span>");
+                        } else {
+                            return gridjs.html("<span class='badge bg-secondary'>Inactief</span>");
+                        }
+                    }
+                },
                 {
                     name: "Acties",
                     sort: false,

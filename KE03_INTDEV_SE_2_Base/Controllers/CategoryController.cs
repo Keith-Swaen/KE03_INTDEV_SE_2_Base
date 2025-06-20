@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
+using System.Collections.Generic;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
@@ -15,9 +16,22 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter = "active")
         {
-            var categories = await _categoryRepository.GetActiveCategoriesAsync();
+            IEnumerable<Category> categories;
+            if (filter == "all")
+            {
+                categories = await _categoryRepository.GetAllCategoriesAsync();
+            }
+            else if (filter == "inactive")
+            {
+                categories = await _categoryRepository.GetInactiveCategoriesAsync();
+            }
+            else
+            {
+                categories = await _categoryRepository.GetActiveCategoriesAsync();
+            }
+            ViewBag.Filter = filter;
             return View(categories);
         }
 
