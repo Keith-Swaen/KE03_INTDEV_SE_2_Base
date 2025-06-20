@@ -19,7 +19,11 @@
         <dd class="col-sm-10">@Model.OrderDate.ToString("dd-MM-yyyy")</dd>
 
         <dt class="col-sm-2">Customer</dt>
-        <dd class="col-sm-10">@Model.Customer.Name</dd>
+        <dd class="col-sm-10">
+            <a asp-action="Details" asp-controller="Customers" asp-route-id="@Model.Customer.Id">
+                @Model.Customer.Name
+            </a>
+        </dd>
 
         <dt class="col-sm-2">Order Omzet</dt>
         <dd class="col-sm-10">€@Model.OrderProducts.Sum(p => p.ProductPrice)</dd>
