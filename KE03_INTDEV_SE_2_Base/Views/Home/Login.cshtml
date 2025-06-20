@@ -8,7 +8,7 @@
 <div class="row justify-content-center align-items-center min-vh-100 g-0" style="max-width: 1100px; margin: 0 auto;">
     <div class="col-lg-6 d-flex align-items-center bg-white p-5 shadow-lg" style="min-height: 600px; min-width: 400px; border-radius: 2rem 0 0 2rem;">
         <div class="w-100">
-            <h2 class="mb-4 fw-bold text-primary text-center">Inloggen</h2>
+            <h2 class="mb-4 fw-bold text-dark">Inloggen</h2>
         @if (!ViewData.ModelState.IsValid)
         {
                 <div class="alert alert-danger">
@@ -28,7 +28,7 @@
                     <input type="password" id="password" name="Password" class="form-control form-control-lg" placeholder="Voer je wachtwoord in" required />
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-lg">Inloggen</button>
+                    <button type="submit" class="btn btn-success btn-lg">Inloggen</button>
                 </div>
             </form>
             <div class="mt-4 text-center text-muted small">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-primary text-white p-5" style="min-height: 600px; min-width: 400px; border-radius: 0 2rem 2rem 0;">
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-dark text-white p-5" style="min-height: 600px; min-width: 400px; border-radius: 0 2rem 2rem 0;">
         <div class="text-center w-100">
             <img src="/images/adminlogo.png" alt="Matrix Inc. Logo" class="mb-4 rounded-pill" style="max-width: 220px;">
             <h1 class="fw-bold">Matrix Inc.</h1>
