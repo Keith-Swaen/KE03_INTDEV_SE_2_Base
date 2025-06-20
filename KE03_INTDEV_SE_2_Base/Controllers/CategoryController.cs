@@ -17,7 +17,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _categoryRepository.GetAllCategoriesAsync();
+            var categories = await _categoryRepository.GetActiveCategoriesAsync();
             return View(categories);
         }
 
@@ -65,11 +65,21 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(category);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _categoryRepository.DeleteCategoryAsync(id);
+            var category = await _categoryRepository.GetCategoryByIdAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var success = await _categoryRepository.DeactivateCategoryAsync(id);
             if (!success)
             {
                 return NotFound();

@@ -1,0 +1,43 @@
+@model DataAccessLayer.Models.Category
+
+@{
+    ViewData["Title"] = "Categorie Deactiveren";
+}
+
+<div class="container-fluid py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>Categorie Deactiveren
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <h4 class="alert-heading">Let op!</h4>
+                <p>Weet u zeker dat u deze categorie wilt deactiveren? De categorie wordt niet permanent verwijderd, maar alleen gemarkeerd als inactief.</p>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-3">Naam</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Beschrijving</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <dt class="col-sm-3">Aangemaakt op</dt>
+                <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy")</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post" class="mt-4">
+                <input type="hidden" asp-for="Id" />
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i>Deactiveren
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="fas fa-arrow-left me-2"></i>Terug naar Overzicht
+                </a>
+            </form>
+        </div>
+    </div>
+</div> 
