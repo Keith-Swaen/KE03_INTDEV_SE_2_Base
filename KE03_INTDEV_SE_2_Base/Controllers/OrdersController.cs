@@ -125,47 +125,58 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(model);
         }
 
+
+        // Orders/Create
+        private async Task FillDropdownsAsync(OrderCreateViewModel model)
+        {
+            model.Customers = await _context.Customers
+                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
+                .ToListAsync();
+
+            model.Products = await _context.Products
+                .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name })
+                .ToListAsync();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {
-            if (!ModelState.IsValid)
+            // Controleer of er een klant geselecteerd is
+            if (model.CustomerId == 0)
             {
-                // Als de view opnieuw gerenderd wordt (bij fouten), opnieuw dropdowns vullen
-                model.Customers = await _context.Customers
-                    .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
-                    .ToListAsync();
-
-                model.Products = await _context.Products
-                    .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name })
-                    .ToListAsync();
-
-                return View(model);
+                ModelState.AddModelError(nameof(model.CustomerId), "Selecteer een klant.");
             }
 
-            // Haal alle relevante producten op in één query
-            var selectedProductIds = model.OrderProducts.Select(x => x.ProductId).ToList();
-            var productDict = await _context.Products
-                .Where(p => selectedProductIds.Contains(p.Id))
-                .ToDictionaryAsync(p => p.Id);
+            // Controleer of er minstens één product geselecteerd is
+            if (model.OrderProducts == null || !model.OrderProducts.Any())
+            {
+                ModelState.AddModelError(string.Empty, "Voeg minstens één product toe aan de bestelling.");
+            }
 
-            // Validatie: controleer of genoeg voorraad beschikbaar is
+            // Check voorraad per product
             foreach (var item in model.OrderProducts)
             {
-                if (!productDict.TryGetValue(item.ProductId, out var product))
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+                if (product == null)
                 {
-                    ModelState.AddModelError(string.Empty, $"Product met ID {item.ProductId} bestaat niet.");
-                    return View(model); // Stop en toon fout
+                    ModelState.AddModelError(string.Empty, $"Product met ID {item.ProductId} bestaat niet (meer).");
+                    continue;
                 }
 
                 if (item.Quantity > product.StockQuantity)
                 {
                     ModelState.AddModelError(string.Empty, $"Niet genoeg voorraad voor '{product.Name}'. Beschikbaar: {product.StockQuantity}, gevraagd: {item.Quantity}.");
-                    return View(model); // Stop en toon fout
                 }
             }
 
-            // Bouw bestelling op
+            // Bij fouten: opnieuw dropdowns vullen en terugsturen naar de view
+            if (!ModelState.IsValid)
+            {
+                await FillDropdownsAsync(model);
+                return View(model);
+            }
+
+            // Bestelling aanmaken
             var order = new Order
             {
                 CustomerId = model.CustomerId,
@@ -176,19 +187,18 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             foreach (var item in model.OrderProducts)
             {
-                var product = productDict[item.ProductId];
+                var product = await _context.Products.FirstAsync(p => p.Id == item.ProductId);
 
-                // Verlaag de voorraad
-                product.StockQuantity -= item.Quantity;
-
-                // Voeg OrderProduct toe aan order
                 order.OrderProducts.Add(new OrderProduct
                 {
                     ProductId = product.Id,
-                    Quantity = item.Quantity,
                     ProductName = product.Name,
-                    ProductPrice = product.Price
+                    ProductPrice = product.Price,
+                    Quantity = item.Quantity
                 });
+
+                // Optioneel: voorraad verminderen
+                // product.StockQuantity -= item.Quantity;
             }
 
             _context.Orders.Add(order);
@@ -196,6 +206,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
 
 
 

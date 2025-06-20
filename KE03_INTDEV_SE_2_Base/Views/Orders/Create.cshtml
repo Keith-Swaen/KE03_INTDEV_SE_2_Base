@@ -7,6 +7,8 @@
 <h1>Nieuwe Bestelling</h1>
 
 <form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+en
     <div class="mb-3">
         <label asp-for="CustomerId">Klant</label>
         <select asp-for="CustomerId" class="form-select" asp-items="Model.Customers" required>
