@@ -1,40 +1,45 @@
 @model KE03_INTDEV_SE_2_Base.Models.LoginViewModel
 
 @{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
     ViewData["Title"] = "Inloggen";
 }
 
-<div class="welcome-text">
-    <h1>Welkom bij de Matrix Inc. Admin panel</h1>
-</div>
-
-<div class="login-container">
-    <div class="login-box">
-        <h2>Inloggen</h2>
-
-        @* Display validation errors *@
-        @if (!ViewData.ModelState.IsValid)
-        {
-        <div class="validation-summary-errors text-danger">
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-            <p>@error.ErrorMessage</p>
-                }
+<div class="row justify-content-center align-items-center min-vh-100 g-0" style="max-width: 1100px; margin: 0 auto;">
+    <div class="col-lg-6 d-flex align-items-center bg-white p-5 shadow-lg" style="min-height: 600px; min-width: 400px; border-radius: 2rem 0 0 2rem;">
+        <div class="w-100">
+            <h2 class="mb-4 fw-bold text-primary text-center">Inloggen</h2>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                </div>
+            }
+            <form method="post" autocomplete="off">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Gebruikersnaam</label>
+                    <input type="text" id="username" name="Username" class="form-control form-control-lg" placeholder="Voer je gebruikersnaam in" required autofocus />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Wachtwoord</label>
+                    <input type="password" id="password" name="Password" class="form-control form-control-lg" placeholder="Voer je wachtwoord in" required />
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Inloggen</button>
+                </div>
+            </form>
+            <div class="mt-4 text-center text-muted small">
+                &copy; @DateTime.Now.Year Matrix Inc. | Beveiligde toegang
+            </div>
         </div>
-        }
-
-        <form method="post">
-            <div class="form-group">
-                <label for="username">Gebruikersnaam</label>
-                <input type="text" id="username" name="Username" class="form-control" placeholder="Voer je gebruikersnaam in" />
-            </div>
-
-            <div class="form-group">
-                <label for="password">Wachtwoord</label>
-                <input type="password" id="password" name="Password" class="form-control" placeholder="Voer je wachtwoord in" />
-            </div>
-
-            <button type="submit" class="btn-primary">Inloggen</button>
-        </form>
+    </div>
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center bg-primary text-white p-5" style="min-height: 600px; min-width: 400px; border-radius: 0 2rem 2rem 0;">
+        <div class="text-center w-100">
+            <img src="/images/adminlogo.png" alt="Matrix Inc. Logo" class="mb-4 rounded-pill" style="max-width: 220px;">
+            <h1 class="fw-bold">Matrix Inc.</h1>
+        </div>
     </div>
 </div>

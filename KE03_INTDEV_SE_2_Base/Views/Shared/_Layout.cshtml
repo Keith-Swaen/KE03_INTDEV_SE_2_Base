@@ -80,68 +80,7 @@
 
     <div class="wrapper">
         <!-- Zijbalk -->
-        <nav id="sidebar" class="sidebar">
-            <div class="sidebar-header d-none d-md-flex">
-                <h3>Matrix Inc.</h3>
-            </div>
-
-            <ul class="list-unstyled components">
-                <li>
-                    <a asp-area="" asp-controller="Dashboard" asp-action="Index">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Customers" asp-action="Index">
-                        <i class="fas fa-users"></i>
-                        <span>Customers</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Products" asp-action="Index">
-                        <i class="fas fa-box"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Category" asp-action="Index">
-                        <i class="fas fa-tags"></i>
-                        <span>Categories</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Orders" asp-action="Index">
-                        <i class="fas fa-receipt"></i>
-                        <span>Orders</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Privacy">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Privacy</span>
-                    </a>
-                </li>
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                <li>
-                    <form asp-controller="Home" asp-action="Logout" method="post" class="d-inline w-100">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-link text-start w-100">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-                </li>
-                }
-            </ul>
-        </nav>
+        @await Html.PartialAsync("_Sidebar")
 
         <!-- Pagina Inhoud -->
         <div id="content">
