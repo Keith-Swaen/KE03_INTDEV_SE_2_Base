@@ -9,7 +9,7 @@ body.dashboard-bg {
     margin-bottom: 2.5rem;
 }
 .dashboard-header-card {
-    background: linear-gradient(90deg, #4e73df 0%, #224abe 100%);
+    background: linear-gradient(90deg, #212529 0%, #212529 40%, #f8f9fa 100%);
     color: #fff;
     border-radius: 0.75rem;
     box-shadow: 0 2px 16px rgba(78,115,223,0.10);
@@ -20,9 +20,11 @@ body.dashboard-bg {
     color: #fff;
 }
 .dashboard-header-card .card {
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    border: none;
+    background: #fff;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-radius: 0.5rem;
 }
 .dashboard-actions .btn {
     font-size: 1.1rem;
