@@ -1,0 +1,44 @@
+body.dashboard-bg {
+    background: linear-gradient(135deg, #f8fafc 0%, #e9ecef 100%);
+}
+.dashboard-section {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    padding: 2rem 2rem 1.5rem 2rem;
+    margin-bottom: 2.5rem;
+}
+.dashboard-header-card {
+    background: linear-gradient(90deg, #4e73df 0%, #224abe 100%);
+    color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 16px rgba(78,115,223,0.10);
+    padding: 2rem 2rem 1.5rem 2rem;
+    margin-bottom: 2.5rem;
+}
+.dashboard-header-card h1 {
+    color: #fff;
+}
+.dashboard-header-card .card {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: none;
+}
+.dashboard-actions .btn {
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-radius: 0.75rem;
+    padding: 1rem 0;
+    transition: transform 0.1s;
+}
+.dashboard-actions .btn:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+.dashboard-section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #224abe;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+} 
