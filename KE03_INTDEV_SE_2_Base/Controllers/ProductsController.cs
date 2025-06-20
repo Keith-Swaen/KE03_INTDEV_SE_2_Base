@@ -60,7 +60,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         public async Task<IActionResult> Create()
         {
             _logger.LogInformation("Product aanmaakformulier wordt weergegeven");
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAllCategoriesAsync(), "Id", "Name");
+            ViewBag.Categories = new SelectList(await _categoryRepository.GetActiveCategoriesAsync(), "Id", "Name");
             return View();
         }
 
@@ -104,7 +104,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 return NotFound();
             }
 
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAllCategoriesAsync(), "Id", "Name", product.CategoryId);
+            ViewBag.Categories = new SelectList(await _categoryRepository.GetActiveCategoriesAsync(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
