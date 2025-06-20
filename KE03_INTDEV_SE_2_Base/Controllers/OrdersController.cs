@@ -7,6 +7,8 @@ using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataAccessLayer.Models;
 using KE03_INTDEV_SE_2_Base.Models;
+using System.Text;
+using System.Globalization;
 
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
@@ -193,6 +195,49 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+
+        //Products/Export
+        public IActionResult ExportOrders()
+        {
+            try
+            {
+                var orders = _context.Orders
+                    .Include(o => o.Customer)
+                    .Include(o => o.OrderProducts)
+                        .ThenInclude(op => op.Product)
+                    .ToList();
+
+                var csv = new StringBuilder();
+                csv.AppendLine("Order ID,Orderdatum,Klantnaam,Status,Totaalbedrag,Producten");
+
+                foreach (var order in orders)
+                {
+                    var klantnaam = order.Customer?.Name ?? "Onbekend";
+                    var status = order.Status.ToString();
+                    var orderDatum = order.OrderDate.ToString("yyyy-MM-dd");
+                    var totaal = order.OrderProducts.Sum(op => op.ProductPrice * op.Quantity).ToString("F2", new CultureInfo("nl-NL"));
+
+                    var productInfo = string.Join(" | ", order.OrderProducts.Select(op =>
+                    {
+                        var naam = op.ProductName.Replace("\"", "\"\"");
+                        return $"{naam} x{op.Quantity}";
+                    }));
+
+                    csv.AppendLine($"\"{order.Id}\",\"{orderDatum}\",\"{klantnaam}\",\"{status}\",\"{totaal}\",\"{productInfo}\"");
+                }
+
+                var fileName = $"bestellingen_export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                var bytes = Encoding.UTF8.GetBytes(csv.ToString());
+
+                return File(bytes, "text/csv", fileName);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
     }
