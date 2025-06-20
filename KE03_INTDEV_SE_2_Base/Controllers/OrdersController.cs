@@ -41,6 +41,24 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             return View(customer);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                .FirstOrDefault(o => o.Id == id); if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
     }
 }
 
