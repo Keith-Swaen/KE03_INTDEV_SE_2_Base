@@ -9,15 +9,15 @@
     <div class="col-lg-6 d-flex align-items-center bg-white p-5 shadow-lg" style="min-height: 600px; min-width: 400px; border-radius: 2rem 0 0 2rem;">
         <div class="w-100">
             <h2 class="mb-4 fw-bold text-primary text-center">Inloggen</h2>
-            @if (!ViewData.ModelState.IsValid)
-            {
+        @if (!ViewData.ModelState.IsValid)
+        {
                 <div class="alert alert-danger">
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
                         <div>@error.ErrorMessage</div>
-                    }
-                </div>
-            }
+                }
+        </div>
+        }
             <form method="post" autocomplete="off">
                 <div class="mb-3">
                     <label for="username" class="form-label">Gebruikersnaam</label>
@@ -40,6 +40,6 @@
         <div class="text-center w-100">
             <img src="/images/adminlogo.png" alt="Matrix Inc. Logo" class="mb-4 rounded-pill" style="max-width: 220px;">
             <h1 class="fw-bold">Matrix Inc.</h1>
-        </div>
+            </div>
     </div>
 </div>
