@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
+    [Route("Categorieen")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -16,14 +17,16 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index(string filter = "active")
+        [Route("")]
+        [Route("{filter?}")]
+        public async Task<IActionResult> Index(string filter = "actief")
         {
             IEnumerable<Category> categories;
-            if (filter == "all")
+            if (filter == "alle")
             {
                 categories = await _categoryRepository.GetAllCategoriesAsync();
             }
-            else if (filter == "inactive")
+            else if (filter == "inactief")
             {
                 categories = await _categoryRepository.GetInactiveCategoriesAsync();
             }
@@ -35,24 +38,26 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(categories);
         }
 
+        [Route("Aanmaken")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Route("Aanmaken")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                category.Active = true;
                 await _categoryRepository.CreateCategoryAsync(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
 
+        [Route("Bewerken/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryRepository.GetCategoryByIdAsync(id);
@@ -64,6 +69,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         [HttpPost]
+        [Route("Bewerken/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Category category)
         {
@@ -80,6 +86,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(category);
         }
 
+        [Route("Verwijderen/{id}")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -92,6 +99,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Route("Verwijderen/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

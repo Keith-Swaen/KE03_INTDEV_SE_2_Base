@@ -19,20 +19,20 @@
             <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-filter me-1"></i>
                 @{
-                    var filter = ViewBag.Filter as string ?? "all";
-                    var filterText = filter == "active" ? "Alleen actieve klanten" : filter == "inactive" ? "Alleen inactieve klanten" : "Alle klanten";
+                    var filter = ViewBag.Filter as string ?? "alle";
+                    var filterText = filter == "actief" ? "Alleen actieve klanten" : filter == "inactief" ? "Alleen inactieve klanten" : "Alle klanten";
                 }
                 @filterText
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item @(filter == "all" ? "active" : "")" asp-action="Index" asp-route-filter="all">Alle klanten</a>
+                    <a class="dropdown-item @(filter == "alle" ? "active" : "")" asp-action="Index" asp-route-filter="alle">Alle klanten</a>
                 </li>
                 <li>
-                    <a class="dropdown-item @(filter == "active" ? "active" : "")" asp-action="Index" asp-route-filter="active">Alleen actieve klanten</a>
+                    <a class="dropdown-item @(filter == "actief" ? "active" : "")" asp-action="Index" asp-route-filter="actief">Alleen actieve klanten</a>
                 </li>
                 <li>
-                    <a class="dropdown-item @(filter == "inactive" ? "active" : "")" asp-action="Index" asp-route-filter="inactive">Alleen inactieve klanten</a>
+                    <a class="dropdown-item @(filter == "inactief" ? "active" : "")" asp-action="Index" asp-route-filter="inactief">Alleen inactieve klanten</a>
                 </li>
             </ul>
         </div>
@@ -76,9 +76,9 @@
                         "@klant.Name",
                         "@klant.Address",
                         @(klant.Active ? "true" : "false"),
-                        `@Html.Raw($@"<a href='/Customers/Edit/{klant.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
-                                      <a href='/Customers/Details/{klant.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
-                                      <a href='/Customers/Delete/{klant.Id}' class='btn btn-sm btn-outline-danger' title='Deactiveren'><i class='fas fa-trash'></i></a>")`
+                        `@Html.Raw($@"<a href='/Klanten/Bewerken/{klant.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
+                                      <a href='/Klanten/Details/{klant.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
+                                      <a href='/Klanten/Verwijderen/{klant.Id}' class='btn btn-sm btn-outline-danger' title='Deactiveren'><i class='fas fa-trash'></i></a>")`
                     ],</text>
                 }
             ],

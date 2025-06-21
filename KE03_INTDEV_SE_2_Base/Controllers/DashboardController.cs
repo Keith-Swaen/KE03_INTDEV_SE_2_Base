@@ -61,16 +61,15 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             }).ToList();
 
            
-            // werkt maar kost veel moeite bij grote dataset 
             var productsWithOrderProducts = _context.OrderProducts
                 .Include(op => op.Product)
-                .ToList(); // ⬅ haalt eerst alles op van de database
+                .ToList(); // 
 
             viewModel.TopProducts = productsWithOrderProducts
-                .GroupBy(op => op.ProductName) // groepeer op opgeslagen naam
+                .GroupBy(op => op.ProductName) 
                 .Select(g => new TopProductViewModel
                 {
-                    ProductName = g.Key, // g.Key is nu gewoon een string
+                    ProductName = g.Key, 
                     OrderCount = g.Count(),
                     TotalRevenue = g.Sum(op => op.ProductPrice * op.Quantity)
                 })

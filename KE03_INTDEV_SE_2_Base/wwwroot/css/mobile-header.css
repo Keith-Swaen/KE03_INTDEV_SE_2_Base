@@ -92,4 +92,9 @@
 
 .mobile-nav-dropdown .dropdown-item.text-danger:hover i {
   color: #fff;
+}
+
+/* Ensure mobile header icons stay visible on hover/focus */
+.mobile-header .btn:hover i, .mobile-header .btn:focus i {
+  color: #198754 !important;
 } 

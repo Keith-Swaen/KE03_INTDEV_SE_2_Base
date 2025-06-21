@@ -2,54 +2,63 @@
 
 @{
     ViewData["Title"] = "Nieuwe Bestelling";
+    var initialCount = (Model.OrderProducts != null && Model.OrderProducts.Count > 0) ? Model.OrderProducts.Count : 1;
 }
 
-<h1>Nieuwe Bestelling</h1>
-
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-en
-    <div class="mb-3">
-        <label asp-for="CustomerId">Klant</label>
-        <select asp-for="CustomerId" class="form-select" asp-items="Model.Customers" required>
-            <option value="">-- Selecteer een klant --</option>
-        </select>
-        <span asp-validation-for="CustomerId" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <div id="order-products">
-        @for (int i = 0; i < Model.OrderProducts.Count; i++)
-        {
-            var selectedProductId = Model.OrderProducts[i].ProductId.ToString();
-            <div class="row mb-2" data-index="@i">
-                <div class="col-6">
-                    <select name="OrderProducts[@i].ProductId" class="form-select" required onchange="onProductChange(this)">
-                        <option value="">-- Selecteer een product --</option>
-                        @foreach (var p in Model.Products)
-                        {
-                            <option value="@p.Value" selected="@(p.Value == selectedProductId ? "selected" : "")">@p.Text</option>
-                        }
+<div class="container-fluid py-4">
+    <div class="card shadow-sm" style="max-width:700px; margin:0 auto;">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0"><i class="fas fa-plus me-2"></i>Nieuwe Bestelling</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="CustomerId" class="control-label">Klant</label>
+                    <select asp-for="CustomerId" class="form-select" asp-items="Model.Customers" required>
+                        <option value="">-- Selecteer een klant --</option>
                     </select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
                 </div>
-                <div class="col-3">
-                    <input name="OrderProducts[@i].Quantity" type="number" min="1" value="@Model.OrderProducts[i].Quantity" class="form-control" required />
+                <hr />
+                <label class="fw-semibold mb-2">Producten toevoegen</label>
+                <div id="order-products">
+                    @for (int i = 0; i < initialCount; i++)
+                    {
+                        var selectedProductId = (Model.OrderProducts != null && Model.OrderProducts.Count > i) ? Model.OrderProducts[i].ProductId.ToString() : string.Empty;
+                        var quantity = (Model.OrderProducts != null && Model.OrderProducts.Count > i) ? Model.OrderProducts[i].Quantity : 1;
+                        <div class="row mb-2 align-items-end" data-index="@i">
+                            <div class="col-6">
+                                <select name="OrderProducts[@i].ProductId" class="form-select" required>
+                                    <option value="">-- Selecteer een product --</option>
+                                    @foreach (var p in Model.Products ?? new List<SelectListItem>())
+                                    {
+                                        <option value="@p.Value" selected="@(p.Value == selectedProductId ? "selected" : "")">@p.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <input name="OrderProducts[@i].Quantity" type="number" min="1" value="@quantity" class="form-control" required />
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-danger" onclick="removeProduct(this)" title="Verwijder product">×</button>
+                            </div>
+                        </div>
+                    }
                 </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-danger" onclick="removeProduct(this)" title="Verwijder product">×</button>
+                <button type="button" id="btn-add-product" class="btn btn-secondary mb-3" onclick="addProduct()">+ Product toevoegen</button>
+                <div class="form-group d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Bestelling aanmaken
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Terug naar overzicht
+                    </a>
                 </div>
-            </div>
-        }
+            </form>
+        </div>
     </div>
-
-    <button type="button" id="btn-add-product" class="btn btn-secondary mb-3" onclick="addProduct()">+ Product toevoegen</button>
-
-    <div>
-        <button type="submit" class="btn btn-primary">Bestelling aanmaken</button>
-        <a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     <script>
@@ -61,20 +70,10 @@ en
         }
         ];
 
-        let productIndex = @Model.OrderProducts.Count;
-
-        function getSelectedProductIds() {
-            const selects = document.querySelectorAll('#order-products select[name$=".ProductId"]');
-            return Array.from(selects).map(s => s.value).filter(v => v);
-        }
-
-        function getAvailableProducts() {
-            const selected = getSelectedProductIds();
-            return allProducts.filter(p => !selected.includes(p.value));
-        }
+        let productIndex = @initialCount;
 
         function renderProductOptions(selectedValue = '') {
-            const options = getAvailableProducts().map(p => {
+            const options = allProducts.map(p => {
                 const selectedAttr = (p.value === selectedValue) ? ' selected' : '';
                 return `<option value="${p.value}"${selectedAttr}>${p.text}</option>`;
             }).join('');
@@ -82,16 +81,12 @@ en
         }
 
         function addProduct(selectedValue = '') {
+            console.log('addProduct called');
             const container = document.getElementById("order-products");
-            const available = getAvailableProducts();
-            if (available.length === 0) {
-                return;
-            }
-
             const html = `
-                <div class="row mb-2" data-index="${productIndex}">
+                <div class="row mb-2 align-items-end" data-index="${productIndex}">
                     <div class="col-6">
-                        <select name="OrderProducts[${productIndex}].ProductId" class="form-select" required onchange="onProductChange(this)">
+                        <select name="OrderProducts[${productIndex}].ProductId" class="form-select" required>
                             ${renderProductOptions(selectedValue)}
                         </select>
                     </div>
@@ -105,33 +100,15 @@ en
 
             container.insertAdjacentHTML("beforeend", html);
             productIndex++;
-            updateAddButtonState();
         }
 
         function removeProduct(button) {
             button.closest('.row').remove();
-            updateAddButtonState();
-        }
-
-        function onProductChange(select) {
-            updateAddButtonState();
-            // Eventueel: pas andere dropdowns aan, zodat gekozen product uit andere dropdowns verdwijnt
-            // (voor eenvoudige versie is dit optioneel)
-        }
-
-        function updateAddButtonState() {
-            const addButton = document.getElementById("btn-add-product");
-            if (!addButton) return;
-            const available = getAvailableProducts();
-            addButton.disabled = (available.length === 0);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateAddButtonState();
         });
     </script>
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
+    [Route("Klanten")]
     public class CustomersController : Controller
     {
         private readonly MatrixIncDbContext _context;
@@ -23,7 +24,9 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten
-        public async Task<IActionResult> Index(string filter = "all")
+        [Route("")]
+        [Route("{filter?}")]
+        public async Task<IActionResult> Index(string filter = "alle")
         {
             _logger.LogInformation("Klanten worden opgehaald, filter: {Filter}", filter);
             ViewBag.Filter = filter;
@@ -31,15 +34,13 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             IQueryable<Customer> query = _context.Customers;
             switch (filter?.ToLower())
             {
-                case "active":
+                case "actief":
                     query = query.Where(c => c.Active);
                     break;
-                case "inactive":
+                case "inactief":
                     query = query.Where(c => !c.Active);
                     break;
-                // case "all":
                 default:
-                    // No filter, show all
                     break;
             }
 
@@ -48,6 +49,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten/Details/5
+        [Route("Details/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,6 +71,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten/Create
+        [Route("Aanmaken")]
         public IActionResult Create()
         {
             _logger.LogInformation("Klant aanmaakformulier wordt weergegeven");
@@ -77,12 +80,12 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         // POST: Klanten/Create
         [HttpPost]
+        [Route("Aanmaken")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,Active")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                customer.Active = true; 
                 _logger.LogInformation("Nieuwe klant wordt aangemaakt: {CustomerName}", customer.Name);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
@@ -94,6 +97,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten/Edit/5
+        [Route("Bewerken/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +118,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         // POST: Klanten/Edit/5
         [HttpPost]
+        [Route("Bewerken/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Active")] Customer customer)
         {
@@ -152,6 +157,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Klanten/Delete/5
+        [Route("Verwijderen/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,6 +180,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         // POST: Klanten/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Route("Verwijderen/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -1,27 +1,64 @@
 @model DataAccessLayer.Models.Category
 
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-    <div class="form-group mb-3">
-        <label asp-for="Name" class="control-label">Naam</label>
-        <input asp-for="Name" class="form-control" placeholder="Voer categorienaam in" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+@{
+    ViewData["Title"] = "Categorie aanmaken";
+}
+
+<div class="container-fluid py-4">
+    <div class="card shadow-sm" style="max-width:600px; margin:0 auto;">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0"><i class="fas fa-plus me-2"></i>Categorie aanmaken</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label">Naam</label>
+                    <input asp-for="Name" class="form-control" placeholder="Voer categorienaam in" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label">Beschrijving</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Voer een beschrijving in"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Active" class="form-label">Status</label>
+                    <div class="form-check form-switch">
+                        <input asp-for="Active" class="form-check-input" type="checkbox" id="activeSwitch" checked />
+                        <label class="form-check-label" for="activeSwitch">
+                            <span id="activeStatusLabel" class="text-success">Actief</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Aanmaken
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Terug naar overzicht
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group mb-3">
-        <label asp-for="Description" class="control-label">Beschrijving</label>
-        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Voer een beschrijving in"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group d-flex gap-2">
-        <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> Opslaan
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-times"></i> Annuleren
-        </button>
-    </div>
-</form>
+</div>
 
 @section Scripts {
+    <script>
+        const activeSwitch = document.getElementById('activeSwitch');
+        const statusLabel = document.getElementById('activeStatusLabel');
+        function updateStatusLabel() {
+            if (activeSwitch.checked) {
+                statusLabel.textContent = 'Actief';
+                statusLabel.className = 'text-success';
+            } else {
+                statusLabel.textContent = 'Inactief';
+                statusLabel.className = 'text-secondary';
+            }
+        }
+        activeSwitch.addEventListener('change', updateStatusLabel);
+        updateStatusLabel();
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 } 

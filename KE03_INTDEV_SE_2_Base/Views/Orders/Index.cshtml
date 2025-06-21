@@ -103,9 +103,9 @@
                         "@order.Customer?.Name",
                         "@order.Status",
                         @Json.Serialize(order.OrderProducts?.Select(p => p.ProductName) ?? new List<string>()),
-                        "@order.OrderProducts.Sum(p => p.ProductPrice)",
-                        `@Html.Raw($@"<a href='/Orders/Edit/{order.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
-                                     <a href='/Orders/Details/{order.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>")`
+                        "@(order.OrderProducts != null ? order.OrderProducts.Sum(p => p.ProductPrice) : 0)",
+                        `@Html.Raw($@"<a href='/Bestellingen/Bewerken/{order.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
+                                     <a href='/Bestellingen/Details/{order.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>")`
                     ],</text>
                 }
             ],

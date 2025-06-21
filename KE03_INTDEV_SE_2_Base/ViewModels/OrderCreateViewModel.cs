@@ -9,8 +9,8 @@ namespace KE03_INTDEV_SE_2_Base.Models
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
-        public IEnumerable<SelectListItem>? Customers { get; set; }
-        public IEnumerable<SelectListItem>? Products { get; set; }
+        public IEnumerable<SelectListItem> Customers { get; set; } = new List<SelectListItem>();
+        public IEnumerable<SelectListItem> Products { get; set; } = new List<SelectListItem>();
     }
 
     public class OrderProductViewModel
