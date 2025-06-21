@@ -1,0 +1,131 @@
+﻿@model DataAccessLayer.Models.Order
+
+
+@{
+    // ViewData["Title"] = "Bestelling details";
+}
+
+
+<h1>Bestelling details</h1>
+
+<div>
+    <h4>Bestelling</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Order ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Order Date</dt>
+        <dd class="col-sm-10">@Model.OrderDate.ToString("dd-MM-yyyy")</dd>
+
+        <dt class="col-sm-2">Customer</dt>
+        <dd class="col-sm-10">
+            <a asp-action="Details" asp-controller="Customers" asp-route-id="@Model.Customer.Id">
+                @Model.Customer.Name
+            </a>
+        </dd>
+
+        <dt class="col-sm-2">Order Omzet</dt>
+        <dd class="col-sm-10">€@Model.OrderProducts.Sum(p => p.ProductPrice)</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@Model.Status.ToString()</dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Bestelde Producten</h4>
+    <div id="products-grid"></div>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        const grid = new gridjs.Grid({
+            columns: [
+                {
+                    name: "Naam",
+                    sort: true,
+                    search: true
+                },
+                {
+                    name: "Prijs",
+                    sort: true,
+                    formatter: (cell) => `€${parseFloat(cell).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+                    search: true
+                },
+                {
+                    name: "Categorie",
+                    sort: true,
+                    search: true
+                },
+                {
+                    name: "Beschrijving",
+                    sort: false,
+                    search: true
+                },
+                {
+                    name: "Product details",
+                    sort: true,
+                    search: false,
+                    formatter: (cell) => gridjs.html(cell)
+                }
+            ],
+            data: [
+            @{
+                var last = Model.OrderProducts.Last();
+                foreach (var item in Model.OrderProducts)
+                {
+                    var isLast = item == last;
+                    var product = item.Product;
+                    <text>[
+                                "@item.ProductName",
+                                "@item.ProductPrice",
+                                "@(product?.Category?.Name ?? "Geen categorie")",
+                                "@(product?.Description ?? "Geen Beschrijving")",
+                        @Html.Raw(product != null
+                                    ? $@"`<a href='/Products/Details/{product.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>`"
+                                    : "`<span class='text-danger'>Product verwijderd</span>`")
+                            ]@(isLast ? "" : ",")
+
+                    </text>
+                }
+            }
+        ],
+
+            pagination: {
+                limit: 10
+            },
+            search: {
+                placeholder: 'Typ hier om te zoeken...'
+            },
+            language: {
+                search: {
+                    placeholder: 'Typ hier om te zoeken...'
+                },
+                pagination: {
+                    previous: 'Vorige',
+                    next: 'Volgende',
+                    showing: 'Toont',
+                    of: 'van',
+                    results: () => 'resultaten'
+                },
+                loading: 'Laden...',
+                noRecordsFound: 'Geen resultaten gevonden'
+            },
+            sort: true,
+            className: {
+                container: 'table-responsive',
+                table: 'table table-hover align-middle mb-0',
+                thead: 'table-light',
+                th: 'text-nowrap',
+                footer: 'table-light'
+            }
+        }).render(document.getElementById("products-grid"));
+    </script>
+}

@@ -79,6 +79,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(category);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryRepository.GetCategoryByIdAsync(id);
@@ -93,7 +94,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var success = await _categoryRepository.DeactivateCategoryAsync(id);
+            var success = await _categoryRepository.DeactivateCategoryAsync(id); 
             if (!success)
             {
                 return NotFound();
@@ -101,4 +102,4 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
-} 
+}

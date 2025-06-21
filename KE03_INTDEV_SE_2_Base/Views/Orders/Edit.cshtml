@@ -1,38 +1,50 @@
-﻿@model DataAccessLayer.Models.Customer
+﻿@model DataAccessLayer.Models.Order
+@using DataAccessLayer.Models
+
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<h1>Bestelling Bewerken</h1>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <h4>Bestelling</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Order ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Order Date</dt>
+        <dd class="col-sm-10">@Model.OrderDate.ToString("dd-MM-yyyy")</dd>
+
+        @* <dt class="col-sm-2">Customer</dt> *@
+        @* <dd class="col-sm-10"> *@
+        @*     <a asp-action="Details" asp-controller="Customers" asp-route-id="@Model.Customer.Id"> *@
+        @*         @Model.Customer.Name *@
+        @*     </a> *@
+        @* </dd> *@
+
+        <dt class="col-sm-2">Order Omzet</dt>
+        <dd class="col-sm-10">€@Model.OrderProducts.Sum(p => p.ProductPrice)</dd>
+    </dl>
 </div>
+
+<hr />
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<OrderStatus>()">
+            <option value="">-- Selecteer status --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+</form>
+
 
 @section Scripts {
     @{
