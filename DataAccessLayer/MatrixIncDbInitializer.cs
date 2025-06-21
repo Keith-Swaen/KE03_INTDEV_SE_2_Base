@@ -35,10 +35,10 @@ namespace DataAccessLayer
             // Maak orders aan (zonder producten nog)
             var orders = new Order[]
             {
-            new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-01-01") },
-            new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-02-01") },
-            new Order { Customer = customers[1], OrderDate = DateTime.Parse("2021-02-01") },
-            new Order { Customer = customers[2], OrderDate = DateTime.Parse("2021-03-01") }
+            new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-01-01"), Status = OrderStatus.InWacht},
+            new Order { Customer = customers[0], OrderDate = DateTime.Parse("2021-02-01"), Status = OrderStatus.InBehandeling},
+            new Order { Customer = customers[1], OrderDate = DateTime.Parse("2021-02-01"), Status = OrderStatus.Geannuleerd},
+            new Order { Customer = customers[2], OrderDate = DateTime.Parse("2021-03-01"), Status = OrderStatus.Verzonden}
             };
             context.Orders.AddRange(orders);
             context.SaveChanges(); // nodig zodat de Order.Id's en Product.Id's beschikbaar zijn
