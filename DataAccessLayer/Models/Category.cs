@@ -18,6 +18,8 @@ namespace DataAccessLayer.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public bool Active { get; set; } = true;
+
         // Navigation property for products in this category
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }

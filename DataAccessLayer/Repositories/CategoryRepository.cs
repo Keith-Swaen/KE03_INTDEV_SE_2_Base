@@ -53,5 +53,27 @@ namespace DataAccessLayer.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<Category>> GetActiveCategoriesAsync()
+        {
+            return await _context.Categories.Where(c => c.Active).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Category>> GetInactiveCategoriesAsync()
+        {
+            return await _context.Categories.Where(c => !c.Active).ToListAsync();
+        }
+
+        public async Task<bool> DeactivateCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return false;
+            }
+            category.Active = false;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 } 
