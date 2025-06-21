@@ -90,11 +90,11 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 return NotFound();
             }
 
-            var order = _context.Orders
+            var order = await _context.Orders
                 .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
                 .Include(o => o.Customer)
-                .FirstOrDefault(o => o.Id == id);
+                .FirstOrDefaultAsync(o => o.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -245,7 +245,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
                 return File(bytes, "text/csv", fileName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction(nameof(Index));
             }

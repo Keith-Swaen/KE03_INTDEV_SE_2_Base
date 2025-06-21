@@ -20,21 +20,21 @@ en
     <hr />
 
     <div id="order-products">
-        @for (int i = 0; i < Model.OrderProducts.Count; i++)
+        @for (int i = 0; i < (Model.OrderProducts != null ? Model.OrderProducts.Count : 0); i++)
         {
-            var selectedProductId = Model.OrderProducts[i].ProductId.ToString();
+            var selectedProductId = Model.OrderProducts != null ? Model.OrderProducts[i].ProductId.ToString() : string.Empty;
             <div class="row mb-2" data-index="@i">
                 <div class="col-6">
                     <select name="OrderProducts[@i].ProductId" class="form-select" required onchange="onProductChange(this)">
                         <option value="">-- Selecteer een product --</option>
-                        @foreach (var p in Model.Products)
+                        @foreach (var p in Model.Products ?? new List<SelectListItem>())
                         {
                             <option value="@p.Value" selected="@(p.Value == selectedProductId ? "selected" : "")">@p.Text</option>
                         }
                     </select>
                 </div>
                 <div class="col-3">
-                    <input name="OrderProducts[@i].Quantity" type="number" min="1" value="@Model.OrderProducts[i].Quantity" class="form-control" required />
+                    <input name="OrderProducts[@i].Quantity" type="number" min="1" value="@(Model.OrderProducts != null ? Model.OrderProducts[i].Quantity : 1)" class="form-control" required />
                 </div>
                 <div class="col-1">
                     <button type="button" class="btn btn-danger" onclick="removeProduct(this)" title="Verwijder product">×</button>
@@ -61,7 +61,7 @@ en
         }
         ];
 
-        let productIndex = @Model.OrderProducts.Count;
+        let productIndex = Model.OrderProducts != null ? Model.OrderProducts.Count : 0;
 
         function getSelectedProductIds() {
             const selects = document.querySelectorAll('#order-products select[name$=".ProductId"]');

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Categorieën";
-    var gridData = Model.Select(c => new object[] {
+    var gridData = (Model ?? Enumerable.Empty<DataAccessLayer.Models.Category>()).Select(c => new object[] {
         c.Id,
         c.Name,
         c.Description,

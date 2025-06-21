@@ -37,7 +37,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 case "inactive":
                     query = query.Where(c => !c.Active);
                     break;
-                // case "all":
+                // Geen filter, toon alles
                 default:
                     // No filter, show all
                     break;
