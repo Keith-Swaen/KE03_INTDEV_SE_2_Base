@@ -51,7 +51,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.Active = true;
                 await _categoryRepository.CreateCategoryAsync(category);
                 return RedirectToAction(nameof(Index));
             }

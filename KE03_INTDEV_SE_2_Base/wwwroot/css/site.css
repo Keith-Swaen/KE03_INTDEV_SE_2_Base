@@ -80,3 +80,9 @@ body {
     overflow-x: auto;
   }
 }
+
+@media (max-width: 991.98px) {
+  .top-navbar {
+    display: none !important;
+  }
+}

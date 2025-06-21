@@ -4,54 +4,55 @@
     ViewData["Title"] = "Product Bewerken";
 }
 
-<h1>Product Bewerken</h1>
-
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label">Naam</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="Description" class="control-label">Beschrijving</label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="Price" class="control-label">Prijs</label>
-                <div class="input-group">
-                    <span class="input-group-text">€</span>
-                    <input name="Price" class="form-control" type="text" value="@Model.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))" />
+<div class="container-fluid py-4">
+    <div class="card shadow-sm" style="max-width:600px; margin:0 auto;">
+        <div class="card-header bg-warning text-dark">
+            <h3 class="card-title mb-0"><i class="fas fa-edit me-2"></i>Product Bewerken</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label">Naam</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="StockQuantity" class="control-label">Voorraad</label>
-                <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
-                <span asp-validation-for="StockQuantity" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="CategoryId" class="control-label">Categorie</label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
-                    <option value="">-- Selecteer een categorie --</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
-            </div>
-        </form>
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label">Beschrijving</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Price" class="control-label">Prijs</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input name="Price" class="form-control" type="text" value="@Model.Price.ToString("N2", new System.Globalization.CultureInfo("nl-NL"))" />
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="StockQuantity" class="control-label">Voorraad</label>
+                    <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="CategoryId" class="control-label">Categorie</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                        <option value="">-- Selecteer een categorie --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Opslaan
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Terug naar overzicht
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -62,18 +63,15 @@
         document.querySelector('input[name="Price"]').addEventListener('input', function(e) {
             // Verwijder alle niet-numerieke karakters behalve komma
             let value = this.value.replace(/[^\d,]/g, '');
-            
-            // Zorg dat er maar één komma is
+            // Zorg dat er maar een komma is
             let parts = value.split(',');
             if (parts.length > 2) {
                 value = parts[0] + ',' + parts.slice(1).join('');
             }
-            
             // Zorg dat er maximaal 2 decimalen zijn
             if (parts.length > 1 && parts[1].length > 2) {
                 value = parts[0] + ',' + parts[1].substring(0, 2);
             }
-            
             this.value = value;
         });
     </script>

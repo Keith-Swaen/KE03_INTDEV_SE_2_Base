@@ -1,131 +1,80 @@
 ﻿@model DataAccessLayer.Models.Order
 
-
 @{
-    // ViewData["Title"] = "Bestelling details";
+    ViewData["Title"] = "Bestelling Details";
 }
 
-
-<h1>Bestelling details</h1>
-
-<div>
-    <h4>Bestelling</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Order ID</dt>
-        <dd class="col-sm-10">@Model.Id</dd>
-
-        <dt class="col-sm-2">Order Date</dt>
-        <dd class="col-sm-10">@Model.OrderDate.ToString("dd-MM-yyyy")</dd>
-
-        <dt class="col-sm-2">Customer</dt>
-        <dd class="col-sm-10">
-            <a asp-action="Details" asp-controller="Customers" asp-route-id="@Model.Customer.Id">
-                @Model.Customer.Name
-            </a>
-        </dd>
-
-        <dt class="col-sm-2">Order Omzet</dt>
-        <dd class="col-sm-10">€@Model.OrderProducts.Sum(p => p.ProductPrice)</dd>
-
-        <dt class="col-sm-2">Status</dt>
-        <dd class="col-sm-10">@Model.Status.ToString()</dd>
-    </dl>
+<div class="container-fluid py-4">
+    <div class="card shadow-sm" style="max-width:800px; margin:0 auto;">
+        <div class="card-header bg-info text-white">
+            <h3 class="card-title mb-0"><i class="fas fa-info-circle me-2"></i>Bestelling Details</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-4">
+                <dt class="col-sm-4">Order ID</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Id)</dd>
+                <dt class="col-sm-4">Klant</dt>
+                <dd class="col-sm-8">@Model.Customer?.Name</dd>
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+                <dt class="col-sm-4">Orderdatum</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.OrderDate)</dd>
+            </dl>
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Bestelde Producten</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Naam</th>
+                                    <th>Prijs per stuk</th>
+                                    <th>Aantal</th>
+                                    <th>Subtotaal</th>
+                                    <th>Categorie</th>
+                                    <th>Beschrijving</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderProducts)
+                                {
+                                    var product = item.Product;
+                                    var subtotal = item.ProductPrice * item.Quantity;
+                                    <tr>
+                                        <td class="fw-semibold">@item.ProductName</td>
+                                        <td>€@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
+                                        <td>@item.Quantity</td>
+                                        <td>€@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
+                                        <td>@(product?.Category?.Name ?? "Geen categorie")</td>
+                                        <td>@(product?.Description ?? "Geen Beschrijving")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-success">
+                                    <th colspan="3" class="text-end">Totaal</th>
+                                    <th colspan="3" class="text-start fs-5 fw-bold">
+                                        €@Model.OrderProducts.Sum(p => p.ProductPrice * p.Quantity).ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex gap-2 mt-4 justify-content-end">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Bewerken
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Verwijderen
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Terug naar overzicht
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div>
-    <h4>Bestelde Producten</h4>
-    <div id="products-grid"></div>
-
-</div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    <script>
-        const grid = new gridjs.Grid({
-            columns: [
-                {
-                    name: "Naam",
-                    sort: true,
-                    search: true
-                },
-                {
-                    name: "Prijs",
-                    sort: true,
-                    formatter: (cell) => `€${parseFloat(cell).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-                    search: true
-                },
-                {
-                    name: "Categorie",
-                    sort: true,
-                    search: true
-                },
-                {
-                    name: "Beschrijving",
-                    sort: false,
-                    search: true
-                },
-                {
-                    name: "Product details",
-                    sort: true,
-                    search: false,
-                    formatter: (cell) => gridjs.html(cell)
-                }
-            ],
-            data: [
-            @{
-                var last = Model.OrderProducts.Last();
-                foreach (var item in Model.OrderProducts)
-                {
-                    var isLast = item == last;
-                    var product = item.Product;
-                    <text>[
-                                "@item.ProductName",
-                                "@item.ProductPrice",
-                                "@(product?.Category?.Name ?? "Geen categorie")",
-                                "@(product?.Description ?? "Geen Beschrijving")",
-                        @Html.Raw(product != null
-                                    ? $@"`<a href='/Products/Details/{product.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>`"
-                                    : "`<span class='text-danger'>Product verwijderd</span>`")
-                            ]@(isLast ? "" : ",")
-
-                    </text>
-                }
-            }
-        ],
-
-            pagination: {
-                limit: 10
-            },
-            search: {
-                placeholder: 'Typ hier om te zoeken...'
-            },
-            language: {
-                search: {
-                    placeholder: 'Typ hier om te zoeken...'
-                },
-                pagination: {
-                    previous: 'Vorige',
-                    next: 'Volgende',
-                    showing: 'Toont',
-                    of: 'van',
-                    results: () => 'resultaten'
-                },
-                loading: 'Laden...',
-                noRecordsFound: 'Geen resultaten gevonden'
-            },
-            sort: true,
-            className: {
-                container: 'table-responsive',
-                table: 'table table-hover align-middle mb-0',
-                thead: 'table-light',
-                th: 'text-nowrap',
-                footer: 'table-light'
-            }
-        }).render(document.getElementById("products-grid"));
-    </script>
-}

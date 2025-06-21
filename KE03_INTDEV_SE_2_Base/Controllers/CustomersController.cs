@@ -86,7 +86,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             if (ModelState.IsValid)
             {
-                customer.Active = true; 
                 _logger.LogInformation("Nieuwe klant wordt aangemaakt: {CustomerName}", customer.Name);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();

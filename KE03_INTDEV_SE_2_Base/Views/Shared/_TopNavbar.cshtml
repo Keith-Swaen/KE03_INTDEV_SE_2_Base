@@ -1,0 +1,44 @@
+@* Top navbar with a professional Bootstrap profile dropdown and thick green-edged user icon avatar *@
+<div class="top-navbar d-none d-md-flex align-items-center justify-content-end" style="position:fixed; top:0; right:0; left:220px; height:60px; background:#f8f9fa; z-index:1040; border-bottom:1px solid #dee2e6;">
+    <div class="me-4">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="dropdown">
+                <a class="btn btn-link dropdown-toggle p-0 d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none;">
+                    <span class="d-inline-flex align-items-center justify-content-center bg-white border rounded-circle me-2" style="border:5px solid #198754; width:40px; height:40px; font-size:1.5rem;">
+                        <i class="fas fa-user" style="color:#198754; line-height:1;"></i>
+                    </span>
+                    <span class="fw-semibold text-dark">@User.Identity.Name</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg p-0" aria-labelledby="profileDropdown" style="min-width:220px;">
+                    <li class="px-3 pt-3 pb-2 border-bottom bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="d-inline-flex align-items-center justify-content-center bg-white border rounded-circle" style="border:5px solid #198754; width:36px; height:36px; font-size:1.2rem;">
+                                <i class="fas fa-user" style="color:#198754; line-height:1;"></i>
+                            </span>
+                            <div>
+                                <div class="fw-semibold">@User.Identity.Name</div>
+                                <div class="text-muted small">Profiel</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" asp-controller="Home" asp-action="Profile">
+                            <i class="fas fa-id-badge" style="color:#198754;"></i> Profiel
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li>
+                        <form asp-controller="Home" asp-action="Logout" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2 py-2">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Uitloggen</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</div> 

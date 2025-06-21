@@ -106,9 +106,21 @@ body.sidebar-open {
     transition: all 0.3s;
 }
 
+.sidebar-link {
+    transition: background 0.15s, color 0.15s;
+}
+.sidebar-link:hover, .sidebar-link.active {
+    background: #495057;
+    color: #fff !important;
+    text-decoration: none;
+}
+.sidebar-link:hover i, .sidebar-link.active i, .sidebar-link:hover span, .sidebar-link.active span {
+    color: #fff !important;
+}
+
 .sidebar ul li a:hover, .sidebar ul li a.active {
-    background: #f8f9fa;
-    color: #212529;
+    background: #495057;
+    color: #fff;
 }
 
 .sidebar ul li a i {
@@ -134,4 +146,17 @@ body.sidebar-open {
     white-space: nowrap;
     line-height: 60px;
     padding: 0 20px;
+}
+
+/* Override Bootstrap active dropdown item for navbar */
+.dropdown-menu .dropdown-item.active, 
+.dropdown-menu .dropdown-item:active {
+    background-color: #198754 !important;
+    color: #fff !important;
+}
+
+.dropdown-menu .dropdown-item.text-danger.active, 
+.dropdown-menu .dropdown-item.text-danger:active {
+    background-color: #dc3545 !important;
+    color: #fff !important;
 } 

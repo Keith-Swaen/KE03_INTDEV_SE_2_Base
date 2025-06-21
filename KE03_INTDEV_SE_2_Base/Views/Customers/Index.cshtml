@@ -76,9 +76,9 @@
                         "@klant.Name",
                         "@klant.Address",
                         @(klant.Active ? "true" : "false"),
-                        `@Html.Raw($@"<a href='/Customers/Edit/{klant.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
-                                      <a href='/Customers/Details/{klant.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
-                                      <a href='/Customers/Delete/{klant.Id}' class='btn btn-sm btn-outline-danger' title='Deactiveren'><i class='fas fa-trash'></i></a>")`
+                        `@Html.Raw($@"<a href='/Klanten/Bewerken/{klant.Id}' class='btn btn-sm btn-outline-warning me-1' title='Bewerken'><i class='fas fa-edit'></i></a>
+                                      <a href='/Klanten/Details/{klant.Id}' class='btn btn-sm btn-outline-info me-1' title='Details'><i class='fas fa-info-circle'></i></a>
+                                      <a href='/Klanten/Verwijderen/{klant.Id}' class='btn btn-sm btn-outline-danger' title='Deactiveren'><i class='fas fa-trash'></i></a>")`
                     ],</text>
                 }
             ],
