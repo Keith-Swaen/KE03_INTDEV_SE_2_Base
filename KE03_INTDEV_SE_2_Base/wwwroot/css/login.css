@@ -1,0 +1,36 @@
+/* Login styles extracted from site.css */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .login-mobile-rounded {
+    border-radius: 2rem !important;
+  }
+}
+
+.login-logo-bg {
+    background: #212529;
+    width: 95px;
+    height: 75px;
+    padding: 15px;
+} 

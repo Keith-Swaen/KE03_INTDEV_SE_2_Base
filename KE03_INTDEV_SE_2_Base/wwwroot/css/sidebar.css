@@ -1,0 +1,137 @@
+/* Sidebar styles extracted from site.css */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 220px;
+    background: #212529;
+    color: #fff;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+    z-index: 1030;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+    transition: left 0.3s;
+}
+
+.wrapper {
+    margin-left: 220px;
+    transition: margin-left 0.3s;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        left: -220px;
+        width: 220px;
+        height: 100vh;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+        background: #212529;
+        transition: left 0.3s;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .wrapper {
+        margin-left: 0;
+        padding-top: 60px;
+    }
+    #sidebarCollapse {
+        display: block !important;
+    }
+    #content {
+        padding-top: 0;
+    }
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.3);
+        z-index: 1029;
+    }
+    .sidebar-backdrop.hide {
+        display: none;
+    }
+}
+
+#sidebarCollapse {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 1rem;
+    display: none;
+    z-index: 1100;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+body.sidebar-open {
+    overflow: hidden;
+}
+
+.sidebar .sidebar-header {
+    padding: 20px;
+    background: #212529;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar .sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sidebar ul.components {
+    padding: 20px 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar ul li a {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background: #f8f9fa;
+    color: #212529;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        margin-left: 0 !important;
+    }
+    #content {
+        margin-left: 0;
+        padding: 2rem;
+    }
+}
+
+.footer {
+    position: relative;
+    margin-top: auto;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    padding: 0 20px;
+} 
