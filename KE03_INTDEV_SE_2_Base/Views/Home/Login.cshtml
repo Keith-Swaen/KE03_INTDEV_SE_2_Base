@@ -6,8 +6,13 @@
 }
 
 <div class="row justify-content-center align-items-center min-vh-100 g-0" style="max-width: 1100px; margin: 0 auto;">
-    <div class="col-lg-6 d-flex align-items-center bg-white p-5 shadow-lg" style="min-height: 600px; min-width: 400px; border-radius: 2rem 0 0 2rem;">
+    <div class="col-lg-6 d-flex align-items-center bg-white p-5 shadow-lg login-mobile-rounded" style="min-height: 600px; min-width: 400px; border-radius: 2rem 0 0 2rem;">
         <div class="w-100">
+            <div class="text-center mb-3 d-block d-lg-none">
+                <div class="mx-auto d-inline-flex align-items-center justify-content-center rounded-circle login-logo-bg">
+                    <img src="/images/adminlogo.png" alt="Matrix Inc. Logo" class="rounded-pill" style="max-width: 80px;">
+                </div>
+            </div>
             <h2 class="mb-4 fw-bold text-dark">Inloggen</h2>
         @if (!ViewData.ModelState.IsValid)
         {

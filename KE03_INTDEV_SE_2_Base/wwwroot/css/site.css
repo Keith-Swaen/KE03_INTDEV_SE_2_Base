@@ -352,3 +352,16 @@ body.sidebar-open {
     overflow-x: auto;
   }
 }
+
+@media (max-width: 991.98px) {
+  .login-mobile-rounded {
+    border-radius: 2rem !important;
+  }
+}
+
+.login-logo-bg {
+    background: #212529;
+    width: 95px;
+    height: 75px;
+    padding: 15px;
+}
