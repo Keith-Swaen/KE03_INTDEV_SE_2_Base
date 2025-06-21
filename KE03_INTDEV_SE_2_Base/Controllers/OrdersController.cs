@@ -10,9 +10,9 @@ using KE03_INTDEV_SE_2_Base.Models;
 using System.Text;
 using System.Globalization;
 
-
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
+    [Route("Bestellingen")]
     public class OrdersController : Controller
     {
         private readonly MatrixIncDbContext _context;
@@ -22,6 +22,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _context = context;
         }
 
+        [Route("")]
         public async Task<IActionResult> Index()
         {
             var orders = await _context.Orders
@@ -34,6 +35,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
       
 
         // GET: Orders/Edit/5
+        [Route("Bewerken/{id}")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -49,6 +51,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         // POST: Orders/Edit/5
         [HttpPost]
+        [Route("Bewerken/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Status")] Order order)
         {
@@ -65,24 +68,22 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); // ✅ redirect naar Index
+                return RedirectToAction(nameof(Index)); 
             }
             catch
             {
-                // Foutafhandeling
                 ModelState.AddModelError("", "Er is iets misgegaan bij het opslaan.");
             }
 
-            // Navigatieproperties zijn hier niet geladen, dus opnieuw ophalen
             existingOrder = await _context.Orders
                 .Include(o => o.Customer)
                 .Include(o => o.OrderProducts).ThenInclude(p => p.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
-            return View(existingOrder); // ✅ juiste data tonen
+            return View(existingOrder); 
         }
 
-        
+        [Route("Details/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -103,6 +104,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(order);
         }
 
+        [Route("Aanmaken")]
         public async Task<IActionResult> Create()
         {
             var model = new OrderCreateViewModel
@@ -138,6 +140,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 .ToListAsync();
         }
         [HttpPost]
+        [Route("Aanmaken")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {
@@ -147,7 +150,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 ModelState.AddModelError(nameof(model.CustomerId), "Selecteer een klant.");
             }
 
-            // Controleer of er minstens één product geselecteerd is
+            // Controleer of er minstens een product geselecteerd is
             if (model.OrderProducts == null || !model.OrderProducts.Any())
             {
                 ModelState.AddModelError(string.Empty, "Voeg minstens één product toe aan de bestelling.");
@@ -196,9 +199,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                     ProductPrice = product.Price,
                     Quantity = item.Quantity
                 });
-
-                // Optioneel: voorraad verminderen
-                // product.StockQuantity -= item.Quantity;
             }
 
             _context.Orders.Add(order);
@@ -207,10 +207,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
         //Products/Export
+        [Route("Export")]
         public IActionResult ExportOrders()
         {
             try
@@ -251,7 +249,34 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             }
         }
 
-    }
+        [Route("Verwijderen/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
 
+            return View(order);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [Route("Verwijderen/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }
 

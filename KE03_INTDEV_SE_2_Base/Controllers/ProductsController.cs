@@ -11,6 +11,7 @@ using System.Text;
 
 namespace KE03_INTDEV_SE_2_Base.Controllers
 {
+    [Route("Producten")]
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -28,7 +29,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _logger = logger;
         }
 
-        // GET: Producten
+        [Route("")]
         public IActionResult Index()
         {
             _logger.LogInformation("Alle producten worden opgehaald");
@@ -36,7 +37,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(products);
         }
 
-        // GET: Producten/Details/5
+        [Route("Details/{id?}")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -56,7 +57,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // GET: Producten/Creëren
+        [Route("Aanmaken")]
         public async Task<IActionResult> Create()
         {
             _logger.LogInformation("Product aanmaakformulier wordt weergegeven");
@@ -64,8 +65,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View();
         }
 
-        // POST: Producten/Creëren
         [HttpPost]
+        [Route("Aanmaken")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Name,Description,Price,StockQuantity,CategoryId")] Product product)
         {
@@ -87,7 +88,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // GET: Producten/Bewerken/5
+        [Route("Bewerken/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,8 +109,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // POST: Producten/Bewerken/5
         [HttpPost]
+        [Route("Bewerken/{id}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Name,Description,Price,StockQuantity,CategoryId")] Product product)
         {
@@ -137,7 +138,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // GET: Producten/Verwijderen/5
+        [Route("Verwijderen/{id?}")]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -157,8 +158,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // POST: Producten/Verwijderen/5
         [HttpPost, ActionName("Delete")]
+        [Route("Verwijderen/{id}")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
@@ -209,6 +210,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         }
 
         // GET: Products/Export
+        [Route("Export")]
         public IActionResult Export()
         {
             try

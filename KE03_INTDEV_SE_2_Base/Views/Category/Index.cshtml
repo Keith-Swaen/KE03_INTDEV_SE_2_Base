@@ -25,20 +25,20 @@
             <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-filter me-1"></i>
                 @{
-                    var filter = ViewBag.Filter as string ?? "active";
-                    var filterText = filter == "all" ? "Alle categorieën" : "Alleen actieve categorieën";
+                    var filter = ViewBag.Filter as string ?? "actief";
+                    var filterText = filter == "alle" ? "Alle categorieën" : filter == "actief" ? "Alleen actieve categorieën" : "Alleen inactieve categorieën";
                 }
                 @filterText
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item @(filter == "active" ? "active" : "")" asp-action="Index" asp-route-filter="active">Alleen actieve categorieën</a>
+                    <a class="dropdown-item @(filter == "actief" ? "active" : "")" asp-action="Index" asp-route-filter="actief">Alleen actieve categorieën</a>
                 </li>
                 <li>
-                    <a class="dropdown-item @(filter == "inactive" ? "active" : "")" asp-action="Index" asp-route-filter="inactive">Alleen inactieve categorieën</a>
+                    <a class="dropdown-item @(filter == "inactief" ? "active" : "")" asp-action="Index" asp-route-filter="inactief">Alleen inactieve categorieën</a>
                 </li>
                 <li>
-                    <a class="dropdown-item @(filter == "all" ? "active" : "")" asp-action="Index" asp-route-filter="all">Alle categorieën</a>
+                    <a class="dropdown-item @(filter == "alle" ? "active" : "")" asp-action="Index" asp-route-filter="alle">Alle categorieën</a>
                 </li>
             </ul>
         </div>
