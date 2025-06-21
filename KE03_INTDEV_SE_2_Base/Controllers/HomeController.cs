@@ -21,13 +21,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             _context = context;
         }
 
-        // [Authorize]
-        // public IActionResult Index()
-        // {
-        //     return View();
-        // }
-
-
+        
         [Authorize]
         public IActionResult Index()
         {
