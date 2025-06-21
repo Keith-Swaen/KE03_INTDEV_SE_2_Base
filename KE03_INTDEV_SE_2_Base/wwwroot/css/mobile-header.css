@@ -1,0 +1,95 @@
+/* Mobiele header en nav dropdown stijl gepakt van site.css*/
+
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #212529;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  z-index: 1030;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mobile-header .btn {
+  color: white;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.mobile-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.mobile-nav-dropdown .btn {
+  color: #fff;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  background: transparent;
+  border: none;
+}
+
+.mobile-nav-dropdown .btn:hover,
+.mobile-nav-dropdown .btn:focus {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-dropdown .dropdown-menu {
+  margin-top: 0.5rem;
+  border: 1px solid #495057;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #212529;
+  min-width: 200px;
+}
+
+.mobile-nav-dropdown .dropdown-item {
+  padding: 0.75rem 1rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.mobile-nav-dropdown .dropdown-item:hover,
+.mobile-nav-dropdown .dropdown-item:focus {
+  background: #495057;
+  color: #fff;
+}
+
+.mobile-nav-dropdown .dropdown-item i {
+  color: #fff;
+  width: 16px;
+  text-align: center;
+}
+
+.mobile-nav-dropdown .dropdown-divider {
+  margin: 0.5rem 0;
+  border-top: 1px solid #495057;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger {
+  color: #dc3545 !important;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger:hover {
+  background: #dc3545;
+  color: #fff !important;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger i {
+  color: #dc3545;
+}
+
+.mobile-nav-dropdown .dropdown-item.text-danger:hover i {
+  color: #fff;
+} 
