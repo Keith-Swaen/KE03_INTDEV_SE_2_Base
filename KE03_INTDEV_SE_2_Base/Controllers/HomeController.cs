@@ -95,7 +95,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                         authProperties);
 
                     _logger.LogInformation("Succesvolle login voor gebruiker: {Username}", admin.Username);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
 
                 _logger.LogWarning("Mislukte login poging voor gebruiker: {Username}", model.Username);

@@ -2,52 +2,168 @@
 
 @{
     ViewData["Title"] = "Categorieën";
+    var gridData = Model.Select(c => new object[] {
+        c.Id,
+        c.Name,
+        c.Description,
+        c.CreatedAt.ToString("dd/MM/yyyy"),
+        c.Active
+    }).ToList();
 }
 
 <div class="container-fluid py-4">
     <h1 class="h3 text-gray-800 mb-3">
-        <i class="fas fa-tags me-2"></i>Categorieën Overzicht
+        <i class="fas fa-tags me-2"></i>Categorieën
     </h1>
-    <small class="text-muted mb-4 d-block">Bekijk hier alle categorieën en hun details</small>
+    <small class="text-muted mb-4 d-block">Beheer hier alle categorieën</small>
 
-    <div class="d-flex gap-2 mb-3 flex-wrap flex-md-nowrap">
-        <a asp-action="Create" 
-           class="btn btn-primary btn-sm d-flex align-items-center flex-grow-1 flex-md-grow-0 mb-2 mb-md-0" 
-           style="max-width: 180px; white-space: nowrap;">
-            <i class="fas fa-plus me-1"></i>Nieuwe Categorie
+    <div class="d-flex gap-2 mb-3 flex-wrap">
+        <a class="btn btn-primary btn-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createCategoryModal" style="max-width: 180px; white-space: nowrap;">
+            <i class="fas fa-plus me-1"></i>Nieuwe categorie
         </a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-filter me-1"></i>
+                @{
+                    var filter = ViewBag.Filter as string ?? "active";
+                    var filterText = filter == "all" ? "Alle categorieën" : "Alleen actieve categorieën";
+                }
+                @filterText
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item @(filter == "active" ? "active" : "")" asp-action="Index" asp-route-filter="active">Alleen actieve categorieën</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "inactive" ? "active" : "")" asp-action="Index" asp-route-filter="inactive">Alleen inactieve categorieën</a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(filter == "all" ? "active" : "")" asp-action="Index" asp-route-filter="all">Alle categorieën</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  
+    <div id="gridjs-search-wrapper" class="mb-3"></div>
+    <div id="categories-grid" class="mt-3"></div>
+
+    <!-- Create Category Modal -->
+    <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createCategoryModalLabel"><i class="fas fa-plus me-2"></i>Categorie aanmaken</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluiten"></button>
+                </div>
+                <div class="modal-body p-4">
+                    @await Html.PartialAsync("Create", new DataAccessLayer.Models.Category())
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Naam</th>
-                    <th>Beschrijving</th>
-                    <th>Aangemaakt op</th>
-                    <th>Acties</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+    <!-- Verborgen form voor anti-forgery token -->
+    <form id="antiforgery-form" style="display:none;">
+        @Html.AntiForgeryToken()
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script>
+        const token = document.querySelector('#antiforgery-form input[name="__RequestVerificationToken"]').value;
+
+        const grid = new gridjs.Grid({
+            columns: [
+                { name: "Id", hidden: true },
+                { name: "Naam", sort: true, search: true },
+                { name: "Beschrijving", sort: true, search: true },
+                { name: "Aangemaakt op", sort: true, search: false },
                 {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Description</td>
-                        <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-1" title="Bewerken">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Verwijderen">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                    name: "Status",
+                    sort: true,
+                    formatter: (cel) => {
+                        if (cel === true || cel === "true" || cel === 1) {
+                            return gridjs.html("<span class='badge bg-primary'>Actief</span>");
+                        } else {
+                            return gridjs.html("<span class='badge bg-secondary'>Inactief</span>");
+                        }
+                    }
+                },
+                {
+                    name: "Acties",
+                    sort: false,
+                    search: false,
+                    formatter: (cell, row) => {
+                        const id = row.cells[0].data;
+                        return gridjs.html(`
+                            <a href="/Category/Edit/${id}" class="btn btn-sm btn-outline-warning me-1" title="Bewerken">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/Category/Delete/${id}" class="btn btn-sm btn-outline-danger" title="Deactiveren">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        `);
+                    }
                 }
-            </tbody>
-        </table>
-    </div>
-</div> 
+            ],
+            data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(gridData)),
+            pagination: { limit: 10 },
+            search: { placeholder: 'Typ hier om te zoeken...' },
+            language: {
+                search: { placeholder: 'Typ hier om te zoeken...' },
+                pagination: {
+                    previous: 'Vorige',
+                    next: 'Volgende',
+                    showing: 'Toont',
+                    of: 'van',
+                    results: () => 'resultaten'
+                },
+                loading: 'Laden...',
+                noRecordsFound: 'Geen resultaten gevonden'
+            },
+            sort: true,
+            className: {
+                container: 'table-responsive',
+                table: 'table table-hover align-middle mb-0',
+                thead: 'table-light',
+                th: 'text-nowrap',
+                footer: 'table-light'
+            }
+        });
+
+        grid.render(document.getElementById("categories-grid")).then(() => {
+            // Zoek en verplaats de search bar naar een aparte container
+            const gridContainer = document.querySelector("#categories-grid");
+            const searchBar = gridContainer.querySelector(".gridjs-search");
+            const searchWrapper = document.getElementById("gridjs-search-wrapper");
+            if (searchBar && searchWrapper) {
+                searchWrapper.appendChild(searchBar);
+            }
+        });
+
+        // Event listener voor delete knoppen
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-delete');
+            if (!btn) return;
+
+            e.preventDefault();
+            if (confirm('Weet je zeker dat je deze categorie wilt verwijderen?')) {
+                const id = btn.dataset.id;
+                fetch(`/Category/Delete/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Verwijderen mislukt.');
+                    }
+                }).catch(() => alert('Er is een fout opgetreden.'));
+            }
+        });
+    </script>
+}

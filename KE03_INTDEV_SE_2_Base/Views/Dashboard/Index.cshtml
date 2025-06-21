@@ -2,141 +2,170 @@
 
 @{
     ViewData["Title"] = "Dashboard";
+    var lastLogin = DateTime.Now.ToString("dd MMMM yyyy HH:mm"); // Replace with actual last login if available
 }
-//stylesheet
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-<div class="container-fluid py-4">
-    <h1 class="border-bottom pb-3 mb-4 text-dark fw-bold">
-        <i class="fas fa-tachometer-alt me-2"></i>Matrix Inc. Overzicht
-    </h1>
-    <div class="row g-4 mb-4">
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 bg-primary text-white shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Producten</h6>
-                            <div class="display-6 fw-bold">@Model.TotalProducts</div>
-                            <div class="small">Beschikbare Producten</div>
-                        </div>
-                        <div class="fs-1 opacity-75">
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+
+<div class="container-fluid px-3 px-md-5 py-4">
+    <div class="dashboard-header-card d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-5 gap-3">
+        <div>
+            <h1 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                <i class="fas fa-tachometer-alt me-2"></i>Matrix Inc. Overzicht
+            </h1>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 bg-success text-white shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Klanten</h6>
-                            <div class="display-6 fw-bold">@Model.TotalCustomers</div>
-                            <div class="small">Geregistreerde Klanten</div>
-                        </div>
-                        <div class="fs-1 opacity-75">
-                            <i class="fas fa-users"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 bg-info text-white shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-uppercase fw-bold small mb-0">Totaal Bestellingen</h6>
-                            <div class="display-6 fw-bold">@Model.TotalOrders</div>
-                            <div class="small">Verwerkte Bestellingen</div>
-                        </div>
-                        <div class="fs-1 opacity-75">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 bg-warning text-white shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-uppercase fw-bold small mb-0">Totale Omzet</h6>
-                            <div class="display-6 fw-bold">€@Model.TotalRevenue.ToString("N0")</div>
-                            <div class="small">Totale Verkoop</div>
-                        </div>
-                        <div class="fs-1 opacity-75">
-                            <i class="fas fa-euro-sign"></i>
-                        </div>
-                    </div>
-                </div>
+        <div class="card px-4 py-2 d-inline-flex align-items-center mb-0">
+            <i class="bi bi-clock-history fs-3 me-2"></i>
+            <div>
+                <div class="small">Laatste login</div>
+                <div class="fw-semibold">@lastLogin</div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-xl-6">
-            <div class="card h-100 shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <h5 class="text-muted mb-4">
-                        <i class="fas fa-chart-bar me-2"></i>Prijsverdeling Producten
-                    </h5>
-                    <div style="height: 300px">
-                        <canvas id="productPriceChart"></canvas>
-                    </div>
-                </div>
+    <div class="dashboard-section dashboard-actions mb-5">
+        <div class="row justify-content-center g-3">
+            <div class="col-md-4 col-lg-3">
+                <a href="/Orders/OrderOverview" class="btn btn-success btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-basket-fill fs-4"></i> Bestellingen bekijken
+                </a>
             </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card h-100 shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <h5 class="text-muted mb-4">
-                        <i class="fas fa-chart-line me-2"></i>Bestellingen over Tijd
-                    </h5>
-                    <div style="height: 300px">
-                        <canvas id="ordersTimeChart"></canvas>
-                    </div>
-                </div>
+            <div class="col-md-4 col-lg-3">
+                <a href="/Products" class="btn btn-dark btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-box-seam fs-4"></i> Producten beheren
+                </a>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <a href="/Customers" class="btn btn-secondary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-people-fill fs-4"></i> Klanten beheren
+                </a>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm transition-transform hover-lift">
-                <div class="card-body">
-                    <h5 class="text-muted mb-4">
-                        <i class="fas fa-trophy me-2"></i>Best Presterende Producten
-                    </h5>
-                    <div class="table-responsive rounded">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Productnaam</th>
-                                    <th class="text-center">Aantal Bestellingen</th>
-                                    <th class="text-end">Totale Omzet</th>
+    <div class="dashboard-section">
+        <div class="dashboard-section-title">Statistieken</div>
+        <div class="row g-4 mb-2">
+            <div class="col-xl-3 col-md-6">
+                <div class="card h-100 bg-primary text-white shadow-sm transition-transform hover-lift">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold small mb-0">Totaal Producten</h6>
+                                <div class="display-6 fw-bold">@Model.TotalProducts</div>
+                                <div class="small">Beschikbare Producten</div>
+                            </div>
+                            <div class="fs-1 opacity-75">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card h-100 bg-success text-white shadow-sm transition-transform hover-lift">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold small mb-0">Totaal Klanten</h6>
+                                <div class="display-6 fw-bold">@Model.TotalCustomers</div>
+                                <div class="small">Geregistreerde Klanten</div>
+                            </div>
+                            <div class="fs-1 opacity-75">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card h-100 bg-warning text-dark shadow-sm transition-transform hover-lift">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold small mb-0">Totaal Bestellingen</h6>
+                                <div class="display-6 fw-bold">@Model.TotalOrders</div>
+                                <div class="small">Verwerkte Bestellingen</div>
+                            </div>
+                            <div class="fs-1 opacity-75">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card h-100 bg-purple text-white shadow-sm transition-transform hover-lift" style="background-color: #6f42c1 !important;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold small mb-0">Totale Omzet</h6>
+                                <div class="display-6 fw-bold">€@Model.TotalRevenue.ToString("N0")</div>
+                                <div class="small">Totale Verkoop</div>
+                            </div>
+                            <div class="fs-1 opacity-75">
+                                <i class="fas fa-euro-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-section-title mt-5">Overzicht & Grafieken</div>
+        <div class="row g-4 mb-4">
+            <div class="col-xl-6">
+                <div class="card h-100 shadow-sm transition-transform hover-lift">
+                    <div class="card-body">
+                        <h5 class="text-muted mb-4">
+                            <i class="fas fa-chart-bar me-2"></i>Prijsverdeling Producten
+                        </h5>
+                        <div style="height: 300px">
+                            <canvas id="productPriceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card h-100 shadow-sm transition-transform hover-lift">
+                    <div class="card-body">
+                        <h5 class="text-muted mb-4">
+                            <i class="fas fa-chart-line me-2"></i>Bestellingen over Tijd
+                        </h5>
+                        <div style="height: 300px">
+                            <canvas id="ordersTimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-section-title mt-5">Best Presterende Producten</div>
+        <div class="card shadow-sm transition-transform hover-lift">
+            <div class="card-body">
+                <div class="table-responsive rounded">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Productnaam</th>
+                                <th class="text-center">Aantal Bestellingen</th>
+                                <th class="text-end">Totale Omzet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.TopProducts)
+                            {
+                                <tr class="align-middle">
+                                    <td>
+                                        <i class="fas fa-box me-2 text-muted"></i>
+                                        @product.ProductName
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary rounded-pill">@product.OrderCount</span>
+                                    </td>
+                                    <td class="text-end">€@product.TotalRevenue.ToString("N0")</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var product in Model.TopProducts)
-                                {
-                                    <tr class="align-middle">
-                                        <td>
-                                            <i class="fas fa-box me-2 text-muted"></i>
-                                            @product.ProductName
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge bg-primary rounded-pill">@product.OrderCount</span>
-                                        </td>
-                                        <td class="text-end">€@product.TotalRevenue.ToString("N0")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -225,5 +254,7 @@
                 }
             }
         });
+
+        document.body.classList.add('dashboard-bg');
     </script>
 } 
