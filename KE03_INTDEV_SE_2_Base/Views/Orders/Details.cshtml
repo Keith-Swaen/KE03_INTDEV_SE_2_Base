@@ -5,7 +5,7 @@
 }
 
 <div class="container-fluid py-4">
-    <div class="card shadow-sm" style="max-width:800px; margin:0 auto;">
+    <div class="card shadow-sm" style="max-width:100%; margin:0 auto;">
         <div class="card-header bg-info text-white">
             <h3 class="card-title mb-0"><i class="fas fa-info-circle me-2"></i>Bestelling Details</h3>
         </div>
@@ -24,44 +24,8 @@
                 <div class="card-header bg-secondary text-white">
                     <h5 class="mb-0"><i class="fas fa-box me-2"></i>Bestelde Producten</h5>
                 </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Naam</th>
-                                    <th>Prijs per stuk</th>
-                                    <th>Aantal</th>
-                                    <th>Subtotaal</th>
-                                    <th>Categorie</th>
-                                    <th>Beschrijving</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.OrderProducts)
-                                {
-                                    var product = item.Product;
-                                    var subtotal = item.ProductPrice * item.Quantity;
-                                    <tr>
-                                        <td class="fw-semibold">@item.ProductName</td>
-                                        <td>€@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
-                                        <td>@item.Quantity</td>
-                                        <td>€@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
-                                        <td>@(product?.Category?.Name ?? "Geen categorie")</td>
-                                        <td>@(product?.Description ?? "Geen Beschrijving")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                            <tfoot>
-                                <tr class="table-success">
-                                    <th colspan="3" class="text-end">Totaal</th>
-                                    <th colspan="3" class="text-start fs-5 fw-bold">
-                                        €@Model.OrderProducts.Sum(p => p.ProductPrice * p.Quantity).ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                <div class="card-body">
+                    <div id="order-products-grid"></div>
                 </div>
             </div>
             <div class="d-flex gap-2 mt-4 justify-content-end">
@@ -78,3 +42,49 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        const orderProducts = [
+            @foreach (var item in Model.OrderProducts)
+            {
+                var product = item.Product;
+                var subtotal = item.ProductPrice * item.Quantity;
+                <text>[
+                    '@item.ProductName',
+                    '€@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '@item.Quantity',
+                    '€@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '@(product?.Category?.Name ?? "Geen categorie")',
+                    '@(product?.Description ?? "Geen Beschrijving")',
+                    `@Html.Raw($"<a href='/Bestellingen/ProductInfo/{item.ProductId}/{Model.Id}' class='btn btn-sm btn-outline-info' title='Product details bekijken'><i class='fas fa-info-circle'></i></a>")`
+                ],</text>
+            }
+        ];
+        new gridjs.Grid({
+            columns: [
+                'Naam',
+                'Prijs per stuk',
+                'Aantal',
+                'Subtotaal',
+                'Categorie',
+                {
+                    name: 'Beschrijving',
+                    sort: false,
+                    search: false
+                },
+                {
+                    name: 'Product Informatie',
+                    sort: false,
+                    formatter: (cell) => gridjs.html(cell)
+                }
+            ],
+            data: orderProducts,
+            pagination: true,
+            search: true,
+            sort: true,
+            resizable: true,
+            style: {th: { 'background-color': '#f8f9fa' }}
+        }).render(document.getElementById('order-products-grid'));
+    </script>
+}
