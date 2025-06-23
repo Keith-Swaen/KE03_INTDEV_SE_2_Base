@@ -278,6 +278,26 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Route("ProductInfo/{id}/{orderId}")]
+        public async Task<IActionResult> ProductInfo(int? id, int? orderId)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.OrderId = orderId;
+            return View(product);
+        }
     }
 }
 
