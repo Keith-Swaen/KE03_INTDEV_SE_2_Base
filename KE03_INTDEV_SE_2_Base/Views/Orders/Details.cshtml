@@ -90,7 +90,21 @@
             search: true,
             sort: true,
             resizable: true,
-            style: {th: { 'background-color': '#f8f9fa' }}
+            style: {th: { 'background-color': '#f8f9fa' }},
+            language: {
+                search: {
+                    placeholder: 'Typ hier om te zoeken...'
+                },
+                pagination: {
+                    previous: 'Vorige',
+                    next: 'Volgende',
+                    showing: 'Toont',
+                    of: 'van',
+                    results: () => 'resultaten'
+                },
+                loading: 'Laden...',
+                noRecordsFound: 'Geen resultaten gevonden'
+            }
         }).render(document.getElementById('order-products-grid'));
     </script>
 }
