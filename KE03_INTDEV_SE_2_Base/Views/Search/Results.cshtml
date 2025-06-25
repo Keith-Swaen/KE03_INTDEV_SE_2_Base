@@ -1,0 +1,60 @@
+@{
+    ViewBag.Title = "Zoekresultaten";
+    var products = ViewBag.Products as IEnumerable<DataAccessLayer.Models.Product>;
+    var customers = ViewBag.Customers as IEnumerable<DataAccessLayer.Models.Customer>;
+    var orders = ViewBag.Orders as IEnumerable<DataAccessLayer.Models.Order>;
+    string query = ViewBag.Query as string;
+}
+
+<h2>Zoekresultaten voor: <em>@query</em></h2>
+
+@if (string.IsNullOrWhiteSpace(query))
+{
+    <div class="alert alert-info">Voer een zoekterm in.</div>
+}
+else if ((products == null || !products.Any()) && (customers == null || !customers.Any()) && (orders == null || !orders.Any()))
+{
+    <div class="alert alert-warning">Geen resultaten gevonden.</div>
+}
+else
+{
+    if (products != null && products.Any())
+    {
+        <h4>Producten</h4>
+        <ul class="list-group mb-4">
+            @foreach (var p in products)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id">@p.Name</a>
+                    <span class="text-muted">@p.Description</span>
+                </li>
+            }
+        </ul>
+    }
+    if (customers != null && customers.Any())
+    {
+        <h4>Klanten</h4>
+        <ul class="list-group mb-4">
+            @foreach (var c in customers)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Customers" asp-action="Details" asp-route-id="@c.Id">@c.Name</a>
+                    <span class="text-muted">@c.Address</span>
+                </li>
+            }
+        </ul>
+    }
+    if (orders != null && orders.Any())
+    {
+        <h4>Bestellingen</h4>
+        <ul class="list-group mb-4">
+            @foreach (var o in orders)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Orders" asp-action="Details" asp-route-id="@o.Id">Bestelling #@o.Id</a>
+                    <span class="text-muted">Klant: @o.Customer?.Name</span>
+                </li>
+            }
+        </ul>
+    }
+} 
