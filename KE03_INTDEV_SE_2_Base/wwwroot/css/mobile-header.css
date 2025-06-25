@@ -97,4 +97,14 @@
 /* Ensure mobile header icons stay visible on hover/focus */
 .mobile-header .btn:hover i, .mobile-header .btn:focus i {
   color: #198754 !important;
+}
+
+.mobile-header .btn-search-mobile i {
+    color: #fff !important;
+    transition: color 0.2s;
+}
+.mobile-header .btn-search-mobile:hover i,
+.mobile-header .btn-search-mobile:active i,
+.mobile-header .btn-search-mobile:focus i {
+    color: #212529 !important; /* Bootstrap 'text-dark' kleur */
 } 
