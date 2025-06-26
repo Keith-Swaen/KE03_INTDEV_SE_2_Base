@@ -2,11 +2,13 @@
 
 Admin Applicatie
 
+
 ## Gemaakt door
 - Keith Swaen
 - Milan Janssen
 - Vince Leboux
 - Lars Kleijnen
+
 
 
 
@@ -18,11 +20,13 @@ https://github.com/Keith-Swaen/KE03_INTDEV_SE_2_Base
 
 
 
+
 ## Inloggen op de applicatie
 Gebruik het volgende standaard admin-account om in te loggen:
 
 - **Gebruikersnaam:** `admin`
 - **Wachtwoord:** `matrix123`
+
 
 
 
