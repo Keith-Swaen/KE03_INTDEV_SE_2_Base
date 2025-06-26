@@ -31,7 +31,7 @@ Gebruik het volgende standaard admin-account om in te loggen:
    ```sh
    git clone https://github.com/Keith-Swaen/KE03_INTDEV_SE_2_Base
    ```
-2. Open het project in Visual Studio (of een andere C# IDE) **of** gebruik de command line.
+2. Open het project in Visual Studio (of een andere IDE).
 3. Herstel NuGet packages (meestal automatisch in Visual Studio, anders via `dotnet restore`).
 5. **Ga in de command line naar de map:**
    ```
