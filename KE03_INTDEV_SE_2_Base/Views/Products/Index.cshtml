@@ -31,7 +31,9 @@
 
 @section Scripts {
     <script>
+        // GridJS tabel aanmaken voor producten
         const grid = new gridjs.Grid({
+            // Kolommen instellen
             columns: [
                 {
                     name: "Naam",
@@ -41,7 +43,8 @@
                 {
                     name: "Prijs",
                     sort: true,
-                    formatter: (cell) => `€${parseFloat(cell).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+                    // Prijs formatteren als euro
+                    formatter: (cell) => `\u20ac${parseFloat(cell).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
                     search: true
                 },
                 {
@@ -58,15 +61,18 @@
                     name: "Beschrijving",
                     sort: false,
                     search: true,
+                    // Lange beschrijvingen afkappen
                     formatter: (cell) => gridjs.html(`<span class='text-ellipsis'>${cell}</span>`)
                 },
                 {
                     name: "Acties",
                     sort: false,
                     search: false,
+                    // Actieknoppen voor bewerken, details en verwijderen
                     formatter: (cell) => gridjs.html(cell)
                 }
             ],
+            // Data vullen vanuit de server
             data: [
                 @foreach (var item in Model)
                 {

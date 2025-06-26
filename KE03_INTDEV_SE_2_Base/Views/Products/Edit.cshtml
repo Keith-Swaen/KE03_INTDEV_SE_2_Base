@@ -66,18 +66,19 @@
 </div>
 
 @section Scripts {
+    // Voegt de validatie-scripts toe zodat client-side validatie werkt, zoals foutmeldingen bij invullen formulier
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         // Script om het prijsveld automatisch te formatteren naar Nederlands formaat
         document.querySelector('input[name="Price"]').addEventListener('input', function(e) {
-            // Verwijder alle niet-numerieke karakters behalve komma
+            // Alleen cijfers en komma toestaan
             let value = this.value.replace(/[^\d,]/g, '');
-            // Zorg dat er maar een komma is
+            // Zorg dat er maar één komma is
             let parts = value.split(',');
             if (parts.length > 2) {
                 value = parts[0] + ',' + parts.slice(1).join('');
             }
-            // Zorg dat er maximaal 2 decimalen zijn
+            // Maximaal 2 decimalen toestaan
             if (parts.length > 1 && parts[1].length > 2) {
                 value = parts[0] + ',' + parts[1].substring(0, 2);
             }

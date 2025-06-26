@@ -72,6 +72,7 @@
 
         let productIndex = @initialCount;
 
+        // Genereer de opties voor de product dropdown
         function renderProductOptions(selectedValue = '') {
             const options = allProducts.map(p => {
                 const selectedAttr = (p.value === selectedValue) ? ' selected' : '';
@@ -80,6 +81,7 @@
             return `<option value="">-- Selecteer een product --</option>` + options;
         }
 
+        // Voeg een nieuwe productregel toe aan het formulier
         function addProduct(selectedValue = '') {
             console.log('addProduct called');
             const container = document.getElementById("order-products");
@@ -102,13 +104,16 @@
             productIndex++;
         }
 
+        // Verwijder een productregel uit het formulier
         function removeProduct(button) {
             button.closest('.row').remove();
         }
 
+        //Eventueel extra logica bij laden van de pagina
         document.addEventListener('DOMContentLoaded', () => {
         });
     </script>
 
+    // Deze regel voegt de validatie-scripts toe zodat client-side validatie werkt (zoals foutmeldingen bij invullen formulier)
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

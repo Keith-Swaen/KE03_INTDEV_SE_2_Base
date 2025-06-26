@@ -51,6 +51,9 @@
 
 @section Scripts {
     <script>
+        // Array met bestelde producten voor de grid
+        // \u20ac is de Unicode escape voor het euroteken (€)
+        // Unicode escape betekent dat je een teken als code schrijft (\u20ac = €)
         const orderProducts = [
             @foreach (var item in Model.OrderProducts)
             {
@@ -58,16 +61,19 @@
                 var subtotal = item.ProductPrice * item.Quantity;
                 <text>[
                     '@item.ProductName',
-                    '€@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '\u20ac@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
                     '@item.Quantity',
-                    '€@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '\u20ac@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
                     '@(product?.Category?.Name ?? "Geen categorie")',
                     '@(product?.Description ?? "Geen Beschrijving")',
+                    // Actieknop voor productinfo
                     `@Html.Raw($"<a href='/Bestellingen/ProductInfo/{item.ProductId}/{Model.Id}' class='btn btn-sm btn-outline-info' title='Product details bekijken'><i class='fas fa-info-circle'></i></a>")`
                 ],</text>
             }
         ];
+        // GridJS tabel aanmaken voor bestelde producten
         new gridjs.Grid({
+            // Kolommen instellen
             columns: [
                 'Naam',
                 'Prijs per stuk',
@@ -82,9 +88,11 @@
                 {
                     name: 'Product Informatie',
                     sort: false,
+                    // Actieknop voor productinfo
                     formatter: (cell) => gridjs.html(cell)
                 }
             ],
+            // Data vullen vanuit de array
             data: orderProducts,
             pagination: true,
             search: true,

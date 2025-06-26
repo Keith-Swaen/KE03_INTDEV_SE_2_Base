@@ -49,9 +49,10 @@
 </div>
 
 @section Scripts {
-    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
     <script>
+        // GridJS tabel aanmaken voor categorieën
         const grid = new gridjs.Grid({
+            // Kolommen instellen
             columns: [
                 { name: "Id", hidden: true },
                 { name: "Naam", sort: true, search: true },
@@ -60,6 +61,7 @@
                 {
                     name: "Status",
                     sort: true,
+                    // Status weergeven als badge
                     formatter: (cel) => {
                         if (cel === true || cel === "true" || cel === 1) {
                             return gridjs.html("<span class='badge bg-primary'>Actief</span>");
@@ -72,6 +74,7 @@
                     name: "Acties",
                     sort: false,
                     search: false,
+                    // Actieknoppen voor bewerken en verwijderen
                     formatter: (cell, row) => {
                         const id = row.cells[0].data;
                         return gridjs.html(`
@@ -85,6 +88,7 @@
                     }
                 }
             ],
+            // Data vullen vanuit de server
             data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(gridData)),
             pagination: { limit: 10 },
             search: { placeholder: 'Typ hier om te zoeken...' },
@@ -110,8 +114,9 @@
             }
         });
 
+        // Tabel renderen in de juiste div
         grid.render(document.getElementById("categories-grid")).then(() => {
-            // Zoek en verplaats de search bar naar een aparte container
+            // Zoek en verplaats de search bar naar een aparte container boven de tabel
             const gridContainer = document.querySelector("#categories-grid");
             const searchBar = gridContainer.querySelector(".gridjs-search");
             const searchWrapper = document.getElementById("gridjs-search-wrapper");
