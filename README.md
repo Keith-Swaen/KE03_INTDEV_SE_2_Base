@@ -1,6 +1,6 @@
 # KE03_INTDEV_SE_2_Base
 
-# Admin Applicatie
+Admin Applicatie
 
 ## Gemaakt door
 - Keith Swaen
