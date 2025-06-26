@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace KE03_INTDEV_SE_2_Base
 {
@@ -13,6 +14,11 @@ namespace KE03_INTDEV_SE_2_Base
     {
         public static void Main(string[] args)
         {
+            // Zet de standaardcultuur op Nederlands zodat decimalen met een komma werken
+            var cultureInfo = new CultureInfo("nl-NL");
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Logging configureren
