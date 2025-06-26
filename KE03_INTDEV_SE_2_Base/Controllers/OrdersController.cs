@@ -30,8 +30,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Actie voor het tonen van het overzicht van alle bestellingen
-         * async betekent dat deze methode asynchroon werkt, zodat de UI niet blokkeert bij wachten op data
-         * Task<IActionResult> betekent dat deze methode een asynchrone actie is die een view of redirect teruggeeft
+         * async, zodat de UI niet blokkeert bij wachten op data
+         * Task<IActionResult> deze methode een asynchrone actie is die een view of redirect teruggeeft
          */
         [Route("")]
         public async Task<IActionResult> Index()
@@ -107,7 +107,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Actie voor het tonen van de details van een bestelling
-         * Het vraagteken bij int? betekent dat het id ook null mag zijn
          */
         [Route("Details/{id?}")]
         public async Task<IActionResult> Details(int? id)

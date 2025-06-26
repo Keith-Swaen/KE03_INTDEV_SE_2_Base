@@ -37,7 +37,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Deze methode laat het overzicht van alle producten zien
-         * IActionResult betekent dat je een view of een redirect teruggeeft
+         * IActionResult zodat je een view of een redirect teruggeeft
          */
         [Route("")]
         public IActionResult Index()
@@ -52,7 +52,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Details laat de details van een product zien
-         * int? betekent dat het id ook null mag zijn
          */
         [Route("Details/{id?}")]
         public IActionResult Details(int? id)
@@ -78,7 +77,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Dit is de GET voor het aanmaken van een product
-         * async betekent dat deze methode niet alles blokkeert, handig als je wacht op data
+         * async zodat deze methode niet alles blokkeert
          */
         [Route("Aanmaken")]
         public async Task<IActionResult> Create()
@@ -93,9 +92,8 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
         /*
          * Dit is de POST voor het aanmaken van een product
-         * [HttpPost] betekent dat deze alleen reageert op een POST
          * [ValidateAntiForgeryToken] is voor veiligheid
-         * [Bind(...)] zorgt dat alleen deze velden uit het formulier komen
+         * [Bind] zorgt dat alleen deze velden uit het formulier komen
          */
         [HttpPost]
         [Route("Aanmaken")]
