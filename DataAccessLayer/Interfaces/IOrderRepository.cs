@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
+    // Interface voor bestellingen: ophalen, toevoegen, aanpassen en verwijderen.
+    // IEnumerable betekent dat je een verzameling krijgt waar je overheen kunt lopen met foreach, zoals een lijst of een array.
     public interface IOrderRepository
     {
         public IEnumerable<Order> GetAllOrders();

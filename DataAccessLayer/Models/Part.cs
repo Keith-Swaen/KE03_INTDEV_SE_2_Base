@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor een onderdeel, bevat info zoals naam, omschrijving en voorraad.
     public class Part
     {
         public int Id { get; set; }
