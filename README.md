@@ -8,15 +8,15 @@ Admin Applicatie
 - Vince Leboux
 - Lars Kleijnen
 
----
 
-# Over dit project
+
+## Over dit project
 Deze applicatie is ontwikkeld als admin-omgeving voor het beheren van producten, klanten en bestellingen. 
 
 **Repository:**
 https://github.com/Keith-Swaen/KE03_INTDEV_SE_2_Base
 
----
+
 
 ## Inloggen op de applicatie
 Gebruik het volgende standaard admin-account om in te loggen:
@@ -24,7 +24,7 @@ Gebruik het volgende standaard admin-account om in te loggen:
 - **Gebruikersnaam:** `admin`
 - **Wachtwoord:** `matrix123`
 
----
+
 
 ## Applicatie starten
 1. Clone de repository:
@@ -45,4 +45,3 @@ Gebruik het volgende standaard admin-account om in te loggen:
 8. Log in met de standaardgegevens:
    - **Gebruikersnaam:** `admin`
    - **Wachtwoord:** `matrix123`
-
