@@ -3,20 +3,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer
 {
+    // Entity Framework database context.
+    // Hierin staan alle tabellen (DbSets) die in de database komen.
     public class MatrixIncDbContext : DbContext
     {
         public MatrixIncDbContext(DbContextOptions<MatrixIncDbContext> options) : base(options)
         {
         }
 
+        // Alle klanten
         public DbSet<Customer> Customers { get; set; }
+        // Alle bestellingen
         public DbSet<Order> Orders { get; set; }
+        // Alle producten
         public DbSet<Product> Products { get; set; }
+        // Alle onderdelen
         public DbSet<Part> Parts { get; set; }
+        // Alle beheerders (admins)
         public DbSet<Admin> Admins { get; set; }
+        // Alle categorieën
         public DbSet<Category> Categories { get; set; }
-
-        // ✅ Nieuw toegevoegd
+        // Koppeltabel tussen bestellingen en producten
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
