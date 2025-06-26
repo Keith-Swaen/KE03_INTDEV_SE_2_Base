@@ -10,7 +10,7 @@ Admin Applicatie
 
 ---
 
-## Over dit project
+# Over dit project
 Deze applicatie is ontwikkeld als admin-omgeving voor het beheren van producten, klanten en bestellingen. 
 
 **Repository:**
