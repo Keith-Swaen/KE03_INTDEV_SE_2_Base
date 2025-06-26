@@ -22,6 +22,12 @@
     <!-- Mobiele Header -->
     <header class="mobile-header d-lg-none d-flex justify-content-between align-items-center">
         <h1 class="mobile-title">Matrix Inc.</h1>
+        <form class="d-flex me-2" method="get" action="/Search/Results" style="max-width: 160px;">
+            <div class="input-group input-group-sm">
+                <input class="form-control" type="search" name="q" placeholder="Zoeken..." aria-label="Zoeken">
+                <button class="btn btn-outline-light text-success btn-search-mobile" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
         <div class="d-flex align-items-center gap-2">
             <div class="dropdown mobile-nav-dropdown">
                 <button class="btn" type="button" id="mobileNavDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -103,8 +109,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

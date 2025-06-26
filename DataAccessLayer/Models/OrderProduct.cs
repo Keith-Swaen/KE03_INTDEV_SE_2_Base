@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor de koppeling tussen een bestelling en een product, bevat onder andere het aantal en de prijs.
     public class OrderProduct
     {
         public int Id { get; set; }

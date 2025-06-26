@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
-    
+    // Enum voor de status van een bestelling.
     public enum OrderStatus
     {
         InWacht = 0,

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor een bestelling, bevat info over klant, datum, status en producten.
     public class Order
     {
         public int Id { get; set; }

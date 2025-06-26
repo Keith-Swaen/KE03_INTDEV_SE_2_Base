@@ -32,7 +32,9 @@
 
 @section Scripts {
     <script>
+        // GridJS tabel aanmaken voor bestellingen
         const grid = new gridjs.Grid({
+            // Kolommen instellen
             columns: [
                 {
                     name: "Order ID",
@@ -42,10 +44,12 @@
                 {
                     name: "Orderdatum",
                     sort: true,
+                    // Datum formatteren naar NL
                     formatter: (cell) => {
                         const date = new Date(cell);
                         return date.toLocaleDateString('nl-NL');
                     },
+                    // Zoeken op datum als string
                     search: {
                         compare: (cell, keyword) => {
                             const date = new Date(cell);
@@ -59,19 +63,21 @@
                     sort: true,
                     search: true
                 },
-				{
-					name: "Status",
-					sort: true,
-					search: true
-				},
+                {
+                    name: "Status",
+                    sort: true,
+                    search: true
+                },
                 {
                     name: "Producten",
+                    // Productnamen samenvoegen tot een string
                     formatter: (cell) => {
                         if (cell && cell.length > 0) {
                             return cell.join(", ");
                         }
                         return "Geen producten";
                     },
+                    // Zoeken in productnamen
                     search: {
                         compare: (cell, keyword) => {
                             if (!cell || cell.length === 0) return false;
@@ -80,20 +86,23 @@
                     }
                 },
                 {
-					name: "Waarde",
-					sort: true,
-					formatter: (cell) => `€ ${cell}`,
-					search: {
-						compare: (cell, keyword) => cell.toString().includes(keyword)
-					}
-				},
+                    name: "Waarde",
+                    sort: true,
+                    // Waarde als euro weergeven
+                    formatter: (cell) => `€ ${cell}`,
+                    search: {
+                        compare: (cell, keyword) => cell.toString().includes(keyword)
+                    }
+                },
                 {
                     name: "Acties",
                     sort: false,
                     search: false,
+                    // Actieknoppen voor bewerken en details
                     formatter: (cell) => gridjs.html(cell)
                 }
             ],
+            // Data vullen vanuit de server
             data: [
                 @foreach (var order in Model)
                 {

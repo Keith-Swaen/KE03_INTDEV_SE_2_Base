@@ -1,5 +1,11 @@
 @* Top navbar with a professional Bootstrap profile dropdown and thick green-edged user icon avatar *@
 <div class="top-navbar d-none d-md-flex align-items-center justify-content-end" style="position:fixed; top:0; right:0; left:220px; height:60px; background:#f8f9fa; z-index:1040; border-bottom:1px solid #dee2e6;">
+    <form class="d-none d-md-flex me-3" method="get" action="/Search/Results" style="width:300px;">
+        <div class="input-group">
+            <input class="form-control" type="search" name="q" placeholder="Zoeken..." aria-label="Zoeken">
+            <button class="btn btn-outline-success" type="submit">Zoek</button>
+        </div>
+    </form>
     <div class="me-4">
         @if (User.Identity?.IsAuthenticated == true)
         {

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
+    // Interface voor producten: ophalen, toevoegen, aanpassen, verwijderen en categorieën koppelen.
+    // IEnumerable betekent dat je een verzameling krijgt waar je overheen kunt lopen met foreach, zoals een lijst of een array.
     public interface IProductRepository
     {
         public IEnumerable<Product> GetAllProducts();

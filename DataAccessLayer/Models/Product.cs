@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor een product, bevat info zoals naam, prijs, voorraad en categorie.
     public class Product
     {        
         public int Id { get; set; }

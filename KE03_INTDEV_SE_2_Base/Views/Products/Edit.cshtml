@@ -10,19 +10,25 @@
             <h3 class="card-title mb-0"><i class="fas fa-edit me-2"></i>Product Bewerken</h3>
         </div>
         <div class="card-body">
+            <!-- Formulier om een bestaand product te bewerken -->
             <form asp-action="Edit">
+                <!-- Verborgen veld voor het product-ID -->
                 <input type="hidden" asp-for="Id" />
+                <!-- Validatie-overzicht voor eventuele fouten -->
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <!-- Invoerveld voor de naam van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="Name" class="control-label">Naam</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
+                <!-- Invoerveld voor de beschrijving van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="Description" class="control-label">Beschrijving</label>
                     <textarea asp-for="Description" class="form-control"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+                <!-- Invoerveld voor de prijs van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="Price" class="control-label">Prijs</label>
                     <div class="input-group">
@@ -31,11 +37,13 @@
                     </div>
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
+                <!-- Invoerveld voor de voorraad van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="StockQuantity" class="control-label">Voorraad</label>
                     <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
                     <span asp-validation-for="StockQuantity" class="text-danger"></span>
                 </div>
+                <!-- Dropdown voor het selecteren van een categorie -->
                 <div class="form-group mb-4">
                     <label asp-for="CategoryId" class="control-label">Categorie</label>
                     <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
@@ -43,6 +51,7 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
+                <!-- Knoppen om op te slaan of terug te gaan -->
                 <div class="form-group d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Opslaan
@@ -57,18 +66,19 @@
 </div>
 
 @section Scripts {
+    // Voegt de validatie-scripts toe zodat client-side validatie werkt, zoals foutmeldingen bij invullen formulier
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        // Formatteer het prijsveld naar Nederlands formaat
+        // Script om het prijsveld automatisch te formatteren naar Nederlands formaat
         document.querySelector('input[name="Price"]').addEventListener('input', function(e) {
-            // Verwijder alle niet-numerieke karakters behalve komma
+            // Alleen cijfers en komma toestaan
             let value = this.value.replace(/[^\d,]/g, '');
-            // Zorg dat er maar een komma is
+            // Zorg dat er maar één komma is
             let parts = value.split(',');
             if (parts.length > 2) {
                 value = parts[0] + ',' + parts.slice(1).join('');
             }
-            // Zorg dat er maximaal 2 decimalen zijn
+            // Maximaal 2 decimalen toestaan
             if (parts.length > 1 && parts[1].length > 2) {
                 value = parts[0] + ',' + parts[1].substring(0, 2);
             }

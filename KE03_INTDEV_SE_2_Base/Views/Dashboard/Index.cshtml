@@ -182,8 +182,8 @@
 </style>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Chart.js algemene configuratie voor alle grafieken
         const chartConfig = {
             responsive: true,
             maintainAspectRatio: false,
@@ -194,6 +194,7 @@
             }
         };
 
+        // Prijsverdeling van producten grafiek (balk)
         new Chart(document.getElementById('productPriceChart'), {
             type: 'bar',
             data: {
@@ -224,6 +225,7 @@
             }
         });
 
+        // Bestellingen over tijd grafiek (lijn)
         new Chart(document.getElementById('ordersTimeChart'), {
             type: 'line',
             data: {
@@ -255,6 +257,7 @@
             }
         });
 
+        // Voeg een class toe aan body zodat je dashboard-specifieke achtergrond kunt stylen via CSS
         document.body.classList.add('dashboard-bg');
     </script>
 } 

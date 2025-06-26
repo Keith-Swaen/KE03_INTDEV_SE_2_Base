@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor een klant, bevat gegevens zoals naam, adres en of de klant actief is.
     public class Customer
     {
         [Key]

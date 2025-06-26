@@ -44,16 +44,17 @@
 </div>
 
 @section Scripts {
-    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-
     <script>
+        // GridJS tabel aanmaken voor klanten
         const grid = new gridjs.Grid({
+            // Kolommen instellen
             columns: [
                 "Naam",
                 "Adres",
                 {
                     name: "Status",
                     sort: true,
+                    // Status weergeven als badge
                     formatter: (cel) => {
                         if (cel === true || cel === "true" || cel === 1) {
                             return gridjs.html("<span class='badge bg-primary'>Actief</span>");
@@ -66,9 +67,11 @@
                     name: "Acties",
                     sort: false,
                     search: false,
+                    // Actieknoppen voor bewerken, details en verwijderen
                     formatter: (cel) => gridjs.html(cel)
                 }
             ],
+            // Data vullen vanuit de server
             data: [
                 @foreach (var klant in Model)
                 {
@@ -114,7 +117,9 @@
             }
         });
 
+        // Tabel renderen in de juiste div
         grid.render(document.getElementById("klanten-grid")).then(() => {
+            // Zoek en verplaats de search bar naar een aparte container boven de tabel
             const gridContainer = document.querySelector("#klanten-grid");
             const searchBar = gridContainer.querySelector(".gridjs-search");
             const searchWrapper = document.getElementById("gridjs-search-wrapper");

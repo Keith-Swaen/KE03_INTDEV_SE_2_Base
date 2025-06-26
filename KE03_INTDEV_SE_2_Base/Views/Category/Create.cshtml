@@ -46,8 +46,10 @@
 
 @section Scripts {
     <script>
+        // Haal de switch en het label op
         const activeSwitch = document.getElementById('activeSwitch');
         const statusLabel = document.getElementById('activeStatusLabel');
+        // Functie om het label aan te passen op basis van de switch
         function updateStatusLabel() {
             if (activeSwitch.checked) {
                 statusLabel.textContent = 'Actief';
@@ -57,8 +59,11 @@
                 statusLabel.className = 'text-secondary';
             }
         }
+        // Event listener voor het wisselen van de switch
         activeSwitch.addEventListener('change', updateStatusLabel);
+        // Initialiseer het label bij laden van de pagina
         updateStatusLabel();
     </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    // Voegt de validatie-scripts toe zodat client-side validatie werkt, zoals foutmeldingen bij invullen formulier
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 } 

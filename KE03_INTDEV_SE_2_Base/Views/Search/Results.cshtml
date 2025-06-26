@@ -1,0 +1,73 @@
+<div class="container-fluid px-2 px-md-4 py-3">
+@{
+    // Haalt de zoekresultaten en zoekterm op uit de ViewBag
+    // ViewBag is een manier om tijdelijk data van de controller naar de view te sturen, zonder een apart model te maken.
+    ViewBag.Title = "Zoekresultaten";
+    var products = ViewBag.Products as IEnumerable<DataAccessLayer.Models.Product>;
+    var customers = ViewBag.Customers as IEnumerable<DataAccessLayer.Models.Customer>;
+    var orders = ViewBag.Orders as IEnumerable<DataAccessLayer.Models.Order>;
+    string query = ViewBag.Query as string;
+}
+
+// Toont de zoekterm bovenaan de pagina
+<h2>Zoekresultaten voor: <em>@query</em></h2>
+
+@if (string.IsNullOrWhiteSpace(query))
+{
+    // Als er geen zoekterm is ingevuld, geef een info melding
+    <div class="alert alert-info">Voer een zoekterm in.</div>
+}
+else if ((products == null || !products.Any()) && (customers == null || !customers.Any()) && (orders == null || !orders.Any()))
+{
+    // Als er geen resultaten zijn, geef een waarschuwing
+    <div class="alert alert-warning">Geen resultaten gevonden.</div>
+}
+else
+{
+    // Als er producten gevonden zijn, toon deze in een lijst
+    if (products != null && products.Any())
+    {
+        <h4>Producten</h4>
+        <ul class="list-group mb-4">
+            @foreach (var p in products)
+            {
+                // Voor elk gevonden product een link naar de details
+                <li class="list-group-item">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id">@p.Name</a>
+                    <span class="text-muted">@p.Description</span>
+                </li>
+            }
+        </ul>
+    }
+    // Als er klanten gevonden zijn, toon deze in een lijst
+    if (customers != null && customers.Any())
+    {
+        <h4>Klanten</h4>
+        <ul class="list-group mb-4">
+            @foreach (var c in customers)
+            {
+                // Voor elke gevonden klant een link naar de details
+                <li class="list-group-item">
+                    <a asp-controller="Customers" asp-action="Details" asp-route-id="@c.Id">@c.Name</a>
+                    <span class="text-muted">@c.Address</span>
+                </li>
+            }
+        </ul>
+    }
+    // Als er bestellingen gevonden zijn, toon deze in een lijst
+    if (orders != null && orders.Any())
+    {
+        <h4>Bestellingen</h4>
+        <ul class="list-group mb-4">
+            @foreach (var o in orders)
+            {
+                // Voor elke gevonden bestelling een link naar de details
+                <li class="list-group-item">
+                    <a asp-controller="Orders" asp-action="Details" asp-route-id="@o.Id">Bestelling #@o.Id</a>
+                    <span class="text-muted">Klant: @o.Customer?.Name</span>
+                </li>
+            }
+        </ul>
+    }
+}
+</div> 

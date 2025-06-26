@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.Models
 {
+    // Model voor een categorie, wordt gebruikt om producten te groeperen.
     public class Category
     {
+        // Id: Unieke sleutel voor de categorie
         [Key]
         public int Id { get; set; }
 
@@ -18,9 +20,10 @@ namespace DataAccessLayer.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        // Geeft aan of de categorie actief is
         public bool Active { get; set; } = true;
 
-        // Navigation property for products in this category
+        // Navigatieproperty, lijst van producten die bij deze categorie horen
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 } 
