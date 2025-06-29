@@ -286,43 +286,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             }
         }
 
-        /*
-         * GET-actie voor het verwijderen van een bestelling (bevestigingspagina)
-         */
-        [Route("Verwijderen/{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            // bestelling ophalen
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            // bestelling naar de view sturen
-            return View(order);
-        }
-
-        /*
-         * POST-actie voor het echt verwijderen van een bestelling
-         * [ActionName("Delete")] zorgt dat deze methode DeleteConfirmed heet maar wel op Delete reageert
-         */
-        [HttpPost, ActionName("Delete")]
-        [Route("Verwijderen/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            // bestelling ophalen
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            // bestelling verwijderen
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-            // terug naar overzicht
-            return RedirectToAction(nameof(Index));
-        }
 
         /*
          * GET-actie om productinfo bij een bestelling te tonen
