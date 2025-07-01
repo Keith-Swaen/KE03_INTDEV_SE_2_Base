@@ -63,7 +63,7 @@
         document.querySelector('input[name="Price"]').addEventListener('input', function(e) {
             // Alleen cijfers en komma toestaan
             let value = this.value.replace(/[^\d,]/g, '');
-            // Zorg dat er maar één komma is
+            // Zorg dat er maar een komma is
             let parts = value.split(',');
             if (parts.length > 2) {
                 value = parts[0] + ',' + parts.slice(1).join('');
