@@ -58,9 +58,9 @@
                 var subtotal = item.ProductPrice * item.Quantity;
                 <text>[
                     '@item.ProductName',
-                    '\u20ac@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '€@item.ProductPrice.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
                     '@item.Quantity',
-                    '\u20ac@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
+                    '€@subtotal.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))',
                     '@(product?.Category?.Name ?? "Geen categorie")',
                     '@(product?.Description ?? "Geen Beschrijving")',
                     // Actieknop voor productinfo

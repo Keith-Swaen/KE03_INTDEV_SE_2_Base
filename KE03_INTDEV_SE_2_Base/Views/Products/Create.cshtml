@@ -1,7 +1,6 @@
 @model DataAccessLayer.Models.Product
 
 @{
-    // Zet de titel van de pagina
     ViewData["Title"] = "Nieuw Product";
 }
 
@@ -11,23 +10,18 @@
             <h3 class="card-title mb-0"><i class="fas fa-plus me-2"></i>Nieuw Product</h3>
         </div>
         <div class="card-body">
-            <!-- Formulier om een nieuw product toe te voegen -->
             <form asp-action="Create">
-                <!-- Hier worden eventuele validatiefouten getoond -->
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                <!-- Invoerveld voor de naam van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="Name" class="control-label">Naam</label>
                     <input asp-for="Name" class="form-control" placeholder="Voer productnaam in" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <!-- Invoerveld voor de beschrijving van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="Description" class="control-label">Beschrijving</label>
                     <textarea asp-for="Description" class="form-control" rows="3" placeholder="Voer een beschrijving in"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-                <!-- Invoerveld voor de prijs van het product, altijd met komma en 2 decimalen -->
                 <div class="form-group mb-3">
                     <label asp-for="Price" class="control-label">Prijs</label>
                     <div class="input-group">
@@ -36,13 +30,11 @@
                     </div>
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
-                <!-- Invoerveld voor de voorraad van het product -->
                 <div class="form-group mb-3">
                     <label asp-for="StockQuantity" class="control-label">Voorraad</label>
                     <input asp-for="StockQuantity" class="form-control" type="number" min="0" value="0" />
                     <span asp-validation-for="StockQuantity" class="text-danger"></span>
                 </div>
-                <!-- Dropdown voor het selecteren van een categorie -->
                 <div class="form-group mb-4">
                     <label asp-for="CategoryId" class="control-label">Categorie</label>
                     <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
@@ -50,7 +42,6 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
-                <!-- Knoppen om het product aan te maken of terug te gaan -->
                 <div class="form-group d-flex gap-2">
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-save"></i> Aanmaken
@@ -65,6 +56,5 @@
 </div>
 
 @section Scripts {
-    // Voegt de validatie-scripts toe zodat client-side validatie werkt, zoals foutmeldingen bij invullen formulier
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 } 
